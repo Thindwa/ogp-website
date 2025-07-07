@@ -135,7 +135,6 @@
     .card-body h3 {
         font-size: 1.5rem;
         margin-bottom: 15px;
-
         font-weight: 600;
     }
 
@@ -155,7 +154,6 @@
     }
 
     .read-more:hover {
-
         transform: translateX(5px);
     }
 
@@ -169,11 +167,25 @@
     }
 
     /* Color variants */
-    .card-1 .card-number { background: linear-gradient(45deg, #00bcd4, #00acc1); }
-    .card-2 .card-number { background: linear-gradient(45deg, #ff9800, #fb8c00); }
-    .card-3 .card-number { background: linear-gradient(45deg, #009688, #00897b); }
-    .card-4 .card-number { background: linear-gradient(45deg, #f44336, #e53935); }
-    .card-5 .card-number { background: linear-gradient(45deg, #3f51b5, #3949ab); }
+    .card-1 .card-number {
+        background: linear-gradient(45deg, #00bcd4, #00acc1);
+    }
+
+    .card-2 .card-number {
+        background: linear-gradient(45deg, #ff9800, #fb8c00);
+    }
+
+    .card-3 .card-number {
+        background: linear-gradient(45deg, #009688, #00897b);
+    }
+
+    .card-4 .card-number {
+        background: linear-gradient(45deg, #f44336, #e53935);
+    }
+
+    .card-5 .card-number {
+        background: linear-gradient(45deg, #3f51b5, #3949ab);
+    }
 
     @media (max-width: 768px) {
         .hero-section {
@@ -192,125 +204,150 @@
             grid-template-columns: 1fr;
         }
     }
-
-
 </style>
 
 @section('content')
-<div class="technical-groups-page">
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h2>Thematic Technical Groups</h2>
-            <p>The National Steering Committee brings together government, civil society, and private sector members to guide the implementation of the OGP action plan</p>
-        </div>
-    </section>
+    <div class="technical-groups-page">
 
-   <!-- Groups Section -->
-<section class="groups-section">
-    <div class="container">
-        <div class="section-intro">
-            <h2>Technical Working Groups</h2>
-            <p>Five thematic groups driving OGP implementation in Malawi through collaborative governance</p>
-        </div>
+        <!-- Groups Section -->
+        <section class="groups-section">
+            <div class="container">
+                <div class="section-intro text-start">
+                    <h2>Technical Working Groups</h2>
 
-        <div class="groups-grid">
-            <!-- Group 1 -->
-            <div class="group-card card-1" data-aos="fade-up">
-                <div class="card-header pt-3">
-                    <div class="card-number mx-auto">1</div>
                 </div>
-                <div class="card-body text-center">
-                    <h3>Anti-Corruption</h3>
-                    <p class="mx-auto" style="max-width: 300px;">Enhancing transparency in procurement through Open Contracting and Beneficial Ownership disclosures to reduce opportunities for corruption and malpractice in public procurement processes.</p>
-                    <div class="text-center">
-                        <a href="{{route('technical.detail', ['slug' => 'anti-corruption'])}}" class="read-more">
-                            Learn more
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
+
+                <div class="groups-grid">
+                    <!-- Group 1 -->
+                    <div class="group-card card-1" data-aos="fade-up">
+                        <div class=" mx-auto py-3">
+                            <!-- PNG Icon -->
+                            <img src="{{ asset('images/anti-corruption.png') }}" alt="Anti-Corruption Icon" width="48"
+                                height="48">
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>Anti-Corruption</h3>
+                            <p class="mx-auto" style="max-width: 300px;">Enhancing transparency in procurement through Open
+                                Contracting and Beneficial Ownership disclosures to reduce opportunities for corruption and
+                                malpractice in public procurement processes.</p>
+                            <div class="text-center">
+                                <a href="{{ route('technical.detail', ['slug' => 'anti-corruption']) }}" class="read-more">
+                                    Learn more
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group 2 -->
+                    <div class="group-card card-2" data-aos="fade-up" data-aos-delay="100">
+                        <div class=" mx-auto py-3">
+                            <!-- PNG Icon -->
+                            <img src="{{ asset('images/info.png') }}" alt="Anti-Corruption Icon" width="48"
+                                height="48">
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>Access to Information</h3>
+                            <p class="mx-auto" style="max-width: 300px;">Promoting transparency in political financing by
+                                implementing the Political Parties Act (2018) and strengthening right to information
+                                frameworks for greater government accountability.</p>
+                            <div class="text-center">
+                                <a href="{{ route('technical.detail', ['slug' => 'access-to-information']) }}"
+                                    class="read-more">
+                                    Learn more
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group 3 -->
+                    <div class="group-card card-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class=" mx-auto py-3">
+                            <!-- PNG Icon -->
+                            <img src="{{ asset('images/money.png') }}" alt="Anti-Corruption Icon" width="48"
+                                height="48">
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>Digital Governance</h3>
+                            <p class="mx-auto" style="max-width: 300px;">Accelerating the adoption of digital government
+                                services and increasing ICT utilization among citizens to improve service delivery and
+                                government-citizen interactions.</p>
+                            <div class="text-center">
+                                <a href="{{ route('technical.detail', ['slug' => 'digital-governance']) }}"
+                                    class="read-more">
+                                    Learn more
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group 4 -->
+                    <div class="group-card card-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class=" mx-auto py-3">
+                            <!-- PNG Icon -->
+                            <img src="{{ asset('images/natural.png') }}" alt="Anti-Corruption Icon" width="48"
+                                height="48">
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>Natural Resources</h3>
+                            <p class="mx-auto" style="max-width: 300px;">Enhancing transparency in the governance of
+                                Malawi's natural resources including contracts, production data, revenue collection, and
+                                environmental impact management.</p>
+                            <div class="text-center">
+                                <a href="{{ route('technical.detail', ['slug' => 'natural-resources']) }}"
+                                    class="read-more">
+                                    Learn more
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Group 5 -->
+                    <div class="group-card card-5" data-aos="fade-up" data-aos-delay="400">
+                        <div class=" mx-auto py-3">
+                            <!-- PNG Icon -->
+                            <img src="{{ asset('images/post-office.png') }}" alt="Anti-Corruption Icon" width="48"
+                                height="48">
+                        </div>
+                        <div class="card-body text-center">
+                            <h3>Public Service Delivery</h3>
+                            <p class="mx-auto" style="max-width: 300px;">Improving efficiency and accountability in public
+                                services through citizen engagement mechanisms and open government practices across key
+                                service delivery sectors.</p>
+                            <div class="text-center">
+                                <a href="{{ route('technical.detail', ['slug' => 'public-service-delivery']) }}"
+                                    class="read-more">
+                                    Learn more
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Group 2 -->
-            <div class="group-card card-2" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-header pt-3">
-                    <div class="card-number mx-auto">2</div>
-                </div>
-                <div class="card-body text-center">
-                    <h3>Access to Information</h3>
-                    <p class="mx-auto" style="max-width: 300px;">Promoting transparency in political financing by implementing the Political Parties Act (2018) and strengthening right to information frameworks for greater government accountability.</p>
-                    <div class="text-center">
-                        <a href="{{route('technical.detail', ['slug' => 'access-to-information'])}}" class="read-more">
-                            Learn more
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Group 3 -->
-            <div class="group-card card-3" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-header pt-3">
-                    <div class="card-number mx-auto">3</div>
-                </div>
-                <div class="card-body text-center">
-                    <h3>Digital Governance</h3>
-                    <p class="mx-auto" style="max-width: 300px;">Accelerating the adoption of digital government services and increasing ICT utilization among citizens to improve service delivery and government-citizen interactions.</p>
-                    <div class="text-center">
-                        <a href="{{route('technical.detail', ['slug' => 'digital-governance'])}}" class="read-more">
-                            Learn more
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Group 4 -->
-            <div class="group-card card-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="card-header pt-3">
-                    <div class="card-number mx-auto">4</div>
-                </div>
-                <div class="card-body text-center">
-                    <h3>Natural Resources</h3>
-                    <p class="mx-auto" style="max-width: 300px;">Enhancing transparency in the governance of Malawi's natural resources including contracts, production data, revenue collection, and environmental impact management.</p>
-                    <div class="text-center">
-                        <a href="{{route('technical.detail', ['slug' => 'natural-resources'])}}" class="read-more">
-                            Learn more
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Group 5 -->
-            <div class="group-card card-5" data-aos="fade-up" data-aos-delay="400">
-                <div class="card-header pt-3">
-                    <div class="card-number mx-auto">5</div>
-                </div>
-                <div class="card-body text-center">
-                    <h3>Public Service Delivery</h3>
-                    <p class="mx-auto" style="max-width: 300px;">Improving efficiency and accountability in public services through citizen engagement mechanisms and open government practices across key service delivery sectors.</p>
-                    <div class="text-center">
-                        <a href="{{route('technical.detail', ['slug' => 'public-service-delivery'])}}" class="read-more">
-                            Learn more
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
-</section>
-</div>
 @endsection

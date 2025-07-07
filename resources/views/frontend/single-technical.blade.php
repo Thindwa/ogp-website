@@ -113,8 +113,8 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-bottom: 15px;
-    }
+
+    }s
 
     .highlight-icon {
         color: #1bbd36;
@@ -124,48 +124,38 @@
     .highlight-text {
         font-size: 0.95rem;
     }
-    /* OGP Hero Section */
-    .hero-section {
-        background: linear-gradient(135deg, #1bbd36 0%, #283593 100%);
-        color: white;
-        padding: 120px 0;
-        position: relative;
-        overflow: hidden;
+    .section-intro {
         text-align: center;
+
     }
 
-    .hero-section::before {
+    .section-intro h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-intro h2::after {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.15;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #1bbd36 0%, #00bcd4 100%);
+        border-radius: 2px;
     }
 
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .hero-content h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-
-    .hero-content p {
-        font-size: 1.2rem;
-        opacity: 0.9;
+    .section-intro p {
+        font-size: 1.1rem;
+        color: #546e7a;
         max-width: 700px;
         margin: 0 auto;
     }
+
     /* Existing article styles (from previous design) */
     .article-header {
         position: relative;
@@ -311,19 +301,20 @@
 </style>
 
 @section('content')
-<section class="hero-section">
-    <div class="hero-content">
-        <h2>ANTI-CORRUPTION TECHNICAL WORKING GROUP</h2>
-    </div>
-</section>
+
 
 <section class="single-news-page">
     <div class="container">
+
         <div class="article-layout">
             <div class="article-container">
-                <div class="article-header">
-                    <img src="{{asset('/images/he.jpg')}}" alt="News article image" class="article-image">
+                <div class="section-intro">
+                    <h2>Anti-Corruption</h2>
+
                 </div>
+                {{-- <div class="article-header">
+                    <img src="{{asset('/images/he.jpg')}}" alt="News article image" class="article-image">
+                </div> --}}
 
                 <div class="article-content">
 
@@ -357,6 +348,26 @@
 
             <!-- Sidebar -->
             <div class="sidebar">
+                    <!-- Highlights Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title"> Anti-Corruption related Documents</h3>
+                        <div class="highlight-item">
+                            <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
+                            <span class="highlight-text">Malawi improves in Open Budget Index.pdf</span>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
+                            <span class="highlight-text">New anti-corruption measures implemented.pdf</span>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
+                            <span class="highlight-text">Citizen engagement portal launched.pdf</span>
+                        </div>
+                        <div class="highlight-item">
+                            <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
+                            <span class="highlight-text">OGP Malawi receives international recognition.pdf</span>
+                        </div>
+                    </div>
                 <!-- Latest News Widget -->
                 <div class="sidebar-widget">
                     <h3 class="widget-title">Other Technical Groups</h3>
@@ -387,26 +398,7 @@
                     </div>
                 </div>
 
-                <!-- Highlights Widget -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title"> Anti-Corruption related Documents</h3>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">Malawi improves in Open Budget Index.pdf</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">New anti-corruption measures implemented.pdf</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">Citizen engagement portal launched.pdf</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">OGP Malawi receives international recognition.pdf</span>
-                    </div>
-                </div>
+
 
 
             </div>
