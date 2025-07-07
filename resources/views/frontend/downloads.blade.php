@@ -273,17 +273,14 @@
 </style>
 <div class="downloads-page">
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h2>OGP Malawi Resources</h2>
-            <p>Access important documents, reports, and resources from our Technical Working Groups</p>
-        </div>
-    </section>
+
 
     <!-- Downloads Section -->
 
      <section class="downloads-section">
+
         <div class="container">
+            <h2 class="mb-4">OGP Malawi Resources</h2>
             <div class="documents-page">
                 <!-- Sidebar Navigation -->
                 <div class="sidebar">

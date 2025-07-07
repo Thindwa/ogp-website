@@ -23,11 +23,16 @@
   <link href="{{asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
   <link href="{{asset('assets/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
-
+ <!-- DataTables CSS -->
+ <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css">
   <!-- Main CSS File -->
   <link href="{{asset('assets/css/main.css')}}" rel="stylesheet">
   <script async defer data-website-id="{{ env('UMAMI_WEBSITE_ID') }}" src="http://localhost:3000/script.js"></script>
-
+<style>
+    .clickable-row:hover {
+  background-color: #e9f5ff !important;
+}
+</style>
 </head>
 
 <body class="index-page">
@@ -55,6 +60,22 @@
   <script src="{{asset('assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
   <script src="{{asset('assets/vendor/waypoints/noframework.waypoints.js')}}"></script>
   <script src="{{asset('assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
+
+
+  <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+
+
+  <script>
+    $(document).ready(function () {
+      $('#reformsTable').DataTable({
+        responsive: true,
+        pageLength: 10,
+        order: [[2, 'desc']]
+      });
+    });
+  </script>
 
   <!-- Main JS File -->
   <script src="{{asset('assets/js/main.js')}}"></script>
