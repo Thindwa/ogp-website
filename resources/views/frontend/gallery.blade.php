@@ -45,20 +45,14 @@
 </style>
 
 @section('content')
-<section class="hero-section">
-    <div class="hero-content">
-        <h2>OGP Malawi Gallery</h2>
-        <p>Explore highlights from OGP Malawi's key events, activities, and collaborative moments captured in photos.</p>
 
-         </div>
-</section>
      <!-- Portfolio Section -->
  <section id="portfolio" class="portfolio section">
 
 
 
     <div class="container">
-
+        <h2 class="mb-4">OGP Malawi Gallery</h2>
         <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
 
             <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">

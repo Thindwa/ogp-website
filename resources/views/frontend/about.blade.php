@@ -388,8 +388,15 @@
           <i class="bi bi-file-earmark-text"></i> View or Download National Action Plan (PDF)
         </a>
 
+         <!-- 2. Secritariate -->
+         <h3 class="fw-semibold mt-5 mb-3">3. Secretariate</h3>
+         <p class="lead">
+           The Malawi OGP National Action Plan 2023–2025 outlines the country’s commitments toward transparency, accountability, and citizen engagement. It was developed collaboratively with input from government and civil society.
+         </p>
+
+
         <!-- 3. Technical Working Groups -->
-        <h3 class="fw-semibold mt-5 mb-3">3. Technical Working Groups</h3>
+        <h3 class="fw-semibold mt-5 mb-3">4. Technical Working Groups</h3>
         <p class="lead">
           Technical Working Groups (TWGs) are formed to coordinate and track progress on specific commitment areas within the action plan. These groups consist of representatives from government ministries, civil society, and technical experts who meet regularly to review progress and provide implementation support.
         </p>

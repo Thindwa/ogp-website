@@ -17,6 +17,7 @@ Route::get('/achievements', [FrontendController::class, 'achievements'])->name('
 Route::get('/gallery', [FrontendController::class, 'Gallery'])->name('gallery');
 Route::get('/downloads', [FrontendController::class, 'downloads'])->name('downloads');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
+Route::get('/achievements/{slug}', [FrontendController::class, 'show'])->name('achievement.detail');
 
 
 

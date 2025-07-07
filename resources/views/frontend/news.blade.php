@@ -142,15 +142,10 @@
     }
     </style>
 @section('content')
-<section class="hero-section">
-    <div class="hero-content">
-        <h2>OGP News</h2>
-            <p>Get the latest updates, stories, and announcements from OGP Malawi.</p>
-         </div>
-</section>
+
 <section class="news-page">
     <div class="container">
-
+        <h2 class="mb-4">OGP Malawi News</h2>
         <div class="news-grid">
             <!-- News Item 1 -->
             <div class="news-card">
