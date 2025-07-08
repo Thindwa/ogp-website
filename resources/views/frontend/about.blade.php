@@ -395,52 +395,44 @@
          </p>
 
 
-        <!-- 3. Technical Working Groups -->
-        <h3 class="fw-semibold mt-5 mb-3">4. Technical Working Groups</h3>
-        <p class="lead">
-          Technical Working Groups (TWGs) are formed to coordinate and track progress on specific commitment areas within the action plan. These groups consist of representatives from government ministries, civil society, and technical experts who meet regularly to review progress and provide implementation support.
-        </p>
-        <div class="twg-grid">
-            <div class="twg-card">
-                <h3><span>1</span> Open Parliament</h3>
-                <p class="lead">Improving transparency on public debt and government financing through parliamentary openness and
-                    accountability measures.</p>
-                <a href="{{ route('technical.detail', ['slug' => 'open-parliament']) }}"
-                    class="explore-link">Explore More</a>
-            </div>
+       <!-- 4. Technical Working Groups -->
+<h3 class="fw-semibold mt-5 mb-3">4. Technical Working Groups</h3>
+<p class="lead">
+  Technical Working Groups (TWGs) are formed to coordinate and track progress on specific commitment areas within the action plan. These groups consist of representatives from government ministries, civil society, and technical experts who meet regularly to review progress and provide implementation support.
+</p>
 
-            <div class="twg-card">
-                <h3><span>2</span> Digital Governance</h3>
-                <p class="lead">Accelerating adoption of e-government services and increasing ICT utilization among Malawians for
-                    better service delivery.</p>
-                <a href="{{ route('technical.detail', ['slug' => 'digital-governance']) }}"
-                    class="explore-link">Explore More</a>
-            </div>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item py-4">
+    <h5 class="fw-bold mb-1">1. Open Parliament</h5>
+    <p class="mb-2">Improving transparency on public debt and government financing through parliamentary openness and accountability measures.</p>
+    <a href="{{ route('technical.detail', ['slug' => 'open-parliament']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
+  </li>
 
-            <div class="twg-card">
-                <h3><span>3</span> Natural Resources</h3>
-                <p class="lead">Enhancing transparency in natural resource governance including contracts, production, exports
-                    and revenue management.</p>
-                <a href="{{ route('technical.detail', ['slug' => 'natural-resources']) }}"
-                    class="explore-link">Explore More</a>
-            </div>
+  <li class="list-group-item py-4">
+    <h5 class="fw-bold mb-1">2. Digital Governance</h5>
+    <p class="mb-2">Accelerating adoption of e-government services and increasing ICT utilization among Malawians for better service delivery.</p>
+    <a href="{{ route('technical.detail', ['slug' => 'digital-governance']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
+  </li>
 
-            <div class="twg-card">
-                <h3><span>4</span> Right to Information</h3>
-                <p class="lead">Actualizing transparency on political party and campaign financing through implementation of
-                    relevant legislation.</p>
-                <a href="{{ route('technical.detail', ['slug' => 'right-to-information']) }}"
-                    class="explore-link">Explore More</a>
-            </div>
+  <li class="list-group-item py-4">
+    <h5 class="fw-bold mb-1">3. Natural Resources</h5>
+    <p class="mb-2">Enhancing transparency in natural resource governance including contracts, production, exports and revenue management.</p>
+    <a href="{{ route('technical.detail', ['slug' => 'natural-resources']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
+  </li>
 
-            <div class="twg-card">
-                <h3><span>5</span> Anti-Corruption</h3>
-                <p class="lead">Strengthening anti-corruption measures through open contracting and beneficial ownership
-                    transparency.</p>
-                <a href="{{ route('technical.detail', ['slug' => 'anti-corruption']) }}"
-                    class="explore-link ">Explore More</a>
-            </div>
-        </div>
+  <li class="list-group-item py-4">
+    <h5 class="fw-bold mb-1">4. Right to Information</h5>
+    <p class="mb-2">Actualizing transparency on political party and campaign financing through implementation of relevant legislation.</p>
+    <a href="{{ route('technical.detail', ['slug' => 'right-to-information']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
+  </li>
+
+  <li class="list-group-item py-4">
+    <h5 class="fw-bold mb-1">5. Anti-Corruption</h5>
+    <p class="mb-2">Strengthening anti-corruption measures through open contracting and beneficial ownership transparency.</p>
+    <a href="{{ route('technical.detail', ['slug' => 'anti-corruption']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
+  </li>
+</ul>
+
       </div>
     </div>
   </section>
