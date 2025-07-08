@@ -12,7 +12,7 @@
           <tr>
             <th>Title</th>
             <th>Submitted</th>
-            <th>Policy Areas</th>
+            <th>Technical Working Group</th>
           </tr>
         </thead>
         <tbody>
