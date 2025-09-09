@@ -1,445 +1,306 @@
 @extends('layouts.frontendlayout')
 
-@section('title', 'About OGP Malawi - Open Government Partnership')
-
-<style>
-    .ogp-about {
-        color: #333;
-        line-height: 1.8;
-    }
-
-    .hero-section {
-        background: linear-gradient(135deg, #1bbd36 0%, #283593 100%);
-        color: white;
-        padding: 100px 0;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.15;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .hero-content h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-
-    .hero-content p {
-        font-size: 1.1rem;
-        opacity: 0.9;
-    }
-
-    .content-section {
-        padding: 60px 0;
-    }
-
-    .section-title {
-        text-align: center;
-    }
-
-    .section-title h2 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        position: relative;
-        display: inline-block;
-    }
-
-    .info-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-        margin-bottom: 40px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .info-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-image {
-        height: 250px;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .timeline-section {
-        background: #f8fafc;
-        padding: 80px 0;
-    }
-
-    .timeline-item {
-        display: flex;
-        margin-bottom: 50px;
-        position: relative;
-    }
-
-    .timeline-year {
-        flex: 0 0 120px;
-        text-align: center;
-        position: relative;
-    }
-
-    .year-bubble {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(135deg, #1bbd36 0%, #00bcd4 100%);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin: 0 auto;
-        position: relative;
-        z-index: 2;
-    }
-
-    .timeline-content {
-        flex: 1;
-        padding: 20px 30px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        margin-left: 20px;
-        position: relative;
-    }
-
-    .timeline-content::before {
-        content: '';
-        position: absolute;
-        left: -20px;
-        top: 30px;
-        width: 0;
-        height: 0;
-        border-top: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        border-right: 20px solid white;
-    }
-
-    .timeline-content h3 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-    }
-
-    .twg-section {
-        padding: 80px 0;
-    }
-
-    .twg-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px;
-    }
-
-    .twg-card {
-        background: white;
-        border-radius: 12px;
-        padding: 30px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
-        border-top: 4px solid #1bbd36;
-    }
-
-    .twg-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .twg-card h3 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-    }
-
-    .twg-card h3 span {
-        width: 30px;
-        height: 30px;
-        background: #1bbd36;
-        color: white;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 15px;
-        font-size: 0.9rem;
-    }
-
-    .twg-card p {
-        color: #555;
-    }
-
-    @media (max-width: 768px) {
-        .hero-content h1 {
-            font-size: 2.2rem;
-        }
-
-        .section-title h2 {
-            font-size: 2rem;
-        }
-
-        .timeline-item {
-            flex-direction: column;
-        }
-
-        .timeline-year {
-            margin-bottom: 20px;
-        }
-
-        .timeline-content {
-            margin-left: 0;
-        }
-
-        .timeline-content::before {
-            display: none;
-        }
-    }
-
-    .twg-card {
-        text-align: center;
-    }
-
-    .explore-link {
-        display: inline-block;
-        margin-top: 10px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.3s ease;
-    }
-
-    .explore-link:hover {
-        color: #0f172a;
-        text-decoration: underline;
-    }
-</style>
-
 @section('content')
-    <div class="ogp-about">
-
-        <!-- What is OGP Section -->
-        <section class="content-section pb-0">
-            <div class="container mx-auto">
-                <div class="row">
-                    <div class="text-start mb-4">
-                        <h2> OGP Global</h2>
-
-                    </div>
-                    <div class="col-md-12">
-
-                        <div class="lead">
-                            <p>The Open Government Partnership (OGP) is a multilateral partnership that aims to secure
-                                concrete commitments from national governments to promote open government, active citizen
-                                participation, transparency, accountability, and the harnessing of new technologies to
-                                strengthen governance. This initiative started in 2011 and includes national governments,
-                                the private sector, and civil society organizations (CSOs) working together to co-create
-                                action plans with concrete commitments across various thematic areas.</p>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- How OGP Works Section -->
-        <section class="timeline-section pb-0">
-            <div class="container">
-                <div class="text-start mb-5">
-                    <h2>OGP in Malawi</h2>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-year">
-                        <div class="year-bubble">2013</div>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Malawi Joins OGP</h3>
-                        <p class="lead">Malawi became a member of the OGP Global Partnership, embracing democratic principles of
-                            transparency, accountability and citizen engagement as outlined in our Constitution.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-year">
-                        <div class="year-bubble">2019</div>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Temporary Interruptions</h3>
-                        <p class="lead">OGP Malawi's initiatives were interrupted by the protracted electoral process and subsequently by
-                            the COVID-19 pandemic, slowing progress on implementation.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-year">
-                        <div class="year-bubble">2022</div>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Revitalization</h3>
-                        <p class="lead">His Excellency Dr. Lazarus McCarthy Chakwera, President of Malawi, revitalized OGP Malawi. A
-                            co-creation kick-off workshop was held in August 2022 with government, civil society, and
-                            private sector stakeholders.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-year">
-                        <div class="year-bubble">2023</div>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>New Action Plan</h3>
-                        <p class="lead">Malawi launched its 2023-2025 National Action Plan with commitments across five thematic areas,
-                            guided by a National Steering Committee and Technical Working Groups.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-       <!-- How OGP Works in Malawi -->
-<!-- How OGP Works in Malawi -->
-<section class="content-section bg-light">
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-dark to-secondary text-white py-5">
     <div class="container">
-      <div class="text-start mb-4">
-        <h2 class="fw-bold">How Is OGP Working in Malawi</h2>
-      </div>
+        <div class="text-center">
+            <h1 class="display-3 fw-bold mb-3">About Open Government Partnership</h1>
+            <p class="lead fs-4">Promoting transparency, accountability, and citizen participation in government</p>
+            <div class="border-bottom border-3 border-success mx-auto mt-4" style="width: 100px;"></div>
+        </div>
+    </div>
+</section>
 
-      <div class="bg-white shadow-sm p-4 rounded">
-        <!-- 1. National Steering Committee -->
-        <h3 class="fw-semibold mb-3">1. National Steering Committee</h3>
-        <p class="lead">
-          OGP in Malawi is coordinated by a National Steering Committee that leads the implementation of the Malawi OGP 2023–2025 National Action Plan. The committee includes government and civil society representatives who collaboratively guide implementation across sectors.
-        </p>
-        <p class="lead">
-          The National Steering Committee provides oversight and support to government agencies, civil society organizations, and private sector stakeholders in fulfilling the commitments outlined in the action plan.
-        </p>
+<!-- About Content -->
+@php
+    $ogpGlobal = $aboutPage;
+@endphp
 
-        <!-- Table -->
-        <div class="table-responsive mt-4">
-          <table class="table table-bordered align-middle">
-            <thead class="table-light">
-              <tr>
-                <th colspan="2" class="text-center">OGP Malawi National Steering Committee Membership</th>
-              </tr>
-              <tr>
-                <th>Government Institutions</th>
-                <th>Civil Society Organizations</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>NGO Regulatory Authority</td>
-                <td>Malawi Confederation of Chambers of Commerce and Industry (MCCCI)</td>
-              </tr>
-              <tr>
-                <td>Ministry of Justice</td>
-                <td>Malawi Building and Civil Engineering Contractors and Allied Traders Association (MABCATA)</td>
-              </tr>
-              <tr>
-                <td>Ministry of Foreign Affairs</td>
-                <td>Council for Non-Governmental Organizations in Malawi (CONGOMA)</td>
-              </tr>
-              <tr>
-                <td>National Assembly</td>
-                <td>Public Affairs Committee (PAC)</td>
-              </tr>
-              <tr>
-                <td>Ministry of Information and Digitalization</td>
-                <td>Federation of Disability on Malawi</td>
-              </tr>
-              <tr>
-                <td>Ministry of Mining</td>
-                <td>Centre for Social Accountability and Transparency</td>
-              </tr>
-              <tr>
-                <td colspan="2"><strong>Ex-Officio Member:</strong> United States Agency for International Development (USAID)</td>
-              </tr>
-            </tbody>
-          </table>
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold mb-4 text-dark">{{ $aboutPage->ogp_global_title ?? 'What is Open Government Partnership?' }}</h2>
+                <p class="lead text-muted mb-4">
+                    {{ $aboutPage->ogp_global_content ?? 'The Open Government Partnership (OGP) is a multilateral initiative that aims to secure concrete commitments from governments to promote transparency, empower citizens, fight corruption, and harness new technologies to strengthen governance.' }}
+                </p>
+                @if($aboutPage->ogp_global_description)
+                <p class="text-muted mb-4">
+                    {{ $aboutPage->ogp_global_description }}
+                </p>
+                @endif
+                <div class="d-flex gap-3">
+                    <a href="{{ route('documents') }}" class="btn btn-success btn-lg px-4 py-3">
+                        <i class="fas fa-file-alt me-2"></i>View Our Action Plans
+                    </a>
+                    <a href="{{ route('technical.group') }}" class="btn btn-outline-success btn-lg px-4 py-3">
+                        <i class="fas fa-users me-2"></i>Join Working Groups
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-light rounded-4 p-4 text-center">
+                    @if($aboutPage->ogp_global_image)
+                        <img src="{{ asset('storage/' . $aboutPage->ogp_global_image) }}" alt="Government of Malawi" class="img-fluid mb-3" style="max-height: 300px;">
+                    @else
+                        <img src="{{ asset('images/arms.png') }}" alt="Government of Malawi" class="img-fluid mb-3" style="max-height: 300px;">
+                    @endif
+                    <h5 class="fw-bold text-dark">Government of Malawi</h5>
+                    <p class="text-muted">Committed to Open Government Principles</p>
+                </div>
+            </div>
         </div>
 
-        <!-- 2. Malawi National Action Plan -->
-        <h3 class="fw-semibold mt-5 mb-3">2. Malawi National Action Plan</h3>
-        <p class="lead">
-          The Malawi OGP National Action Plan 2023–2025 outlines the country’s commitments toward transparency, accountability, and citizen engagement. It was developed collaboratively with input from government and civil society.
-        </p>
-        <a href="#" class="btn btn-outline-success" target="_blank">
-          <i class="bi bi-file-earmark-text"></i> View or Download National Action Plan (PDF)
-        </a>
+                    </div>
+</section>
 
-         <!-- 2. Secritariate -->
-         <h3 class="fw-semibold mt-5 mb-3">3. Secretariate</h3>
-         <p class="lead">
-           The Malawi OGP National Action Plan 2023–2025 outlines the country’s commitments toward transparency, accountability, and citizen engagement. It was developed collaboratively with input from government and civil society.
-         </p>
+<!-- OGP Global Section -->
+@if($ogpGlobal)
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-4 text-center text-dark">{{ $ogpGlobal->title ?? 'OGP Global' }}</h2>
+                <div class="border-bottom border-3 border-primary mx-auto mb-5" style="width: 100px;"></div>
+            </div>
+                        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <p class="lead text-muted">
+                            {!! $ogpGlobal->content ?? 'The Open Government Partnership (OGP) is a multilateral partnership that aims to secure concrete commitments from national governments to promote open government, active citizen participation, transparency, accountability, and the harnessing of new technologies to strengthen governance.' !!}
+                        </p>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+@endif
+
+<!-- OGP in Malawi Timeline -->
+@if($aboutPage->malawi_timeline_title)
+<section class="py-5">
+            <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-4 text-center text-dark">{{ $aboutPage->malawi_timeline_title ?? 'OGP in Malawi' }}</h2>
+                <div class="border-bottom border-3 border-success mx-auto mb-5" style="width: 100px;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="timeline">
+                    @if($aboutPage->malawi_timeline_data && is_array($aboutPage->malawi_timeline_data))
+                        @foreach($aboutPage->malawi_timeline_data as $year => $description)
+                        <div class="timeline-item mb-4">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                            <span class="fw-bold text-success fs-4">{{ $year }}</span>
+                                        </div>
+
+                                    </div>
+                                    <p class="text-muted mb-0">
+                                        {{ $description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @else
+                        <div class="timeline-item mb-4">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <p class="text-muted mb-0">
+                                        {{ $aboutPage->malawi_timeline_content ?? 'Malawi\'s journey with OGP has been marked by significant milestones and challenges.' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
+<!-- How OGP Works in Malawi -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-4 text-center text-dark">How Is OGP Working in Malawi</h2>
+                <div class="border-bottom border-3 border-warning mx-auto mb-5" style="width: 100px;"></div>
+            </div>
+                </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-12">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="fas fa-users fa-lg text-success"></i>
+                            </div>
+                             <h4 class="fw-bold mb-0 text-dark">{{ $aboutPage->steering_committee_title ?? '1. National Steering Committee' }}</h4>
+                        </div>
+                        <p class="text-muted">
+                            {{ $aboutPage->steering_committee_content ?? 'OGP in Malawi is coordinated by a National Steering Committee that leads the implementation of the Malawi OGP 2023–2025 National Action Plan. The committee includes government and civil society representatives who collaboratively guide implementation across sectors.' }}
+                        </p>
+
+                        @if($aboutPage->steering_committee_membership)
+                        <div class="mt-4">
+                            <h6 class="fw-bold text-dark mb-3">OGP Malawi National Steering Committee Membership</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-success mb-2">Government Institutions</h6>
+                                    <ul class="list-unstyled">
+                                        @if(isset($aboutPage->steering_committee_membership['government_institutions']))
+                                            @foreach($aboutPage->steering_committee_membership['government_institutions'] as $institution)
+                                                <li class="mb-1">
+                                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                                    {{ $institution }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-primary mb-2">Civil Society Organizations</h6>
+                                    <ul class="list-unstyled">
+                                        @if(isset($aboutPage->steering_committee_membership['civil_society_organizations']))
+                                            @foreach($aboutPage->steering_committee_membership['civil_society_organizations'] as $organization)
+                                                <li class="mb-1">
+                                                    <i class="fas fa-check-circle text-primary me-2"></i>
+                                                    {{ $organization }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                            @if(isset($aboutPage->steering_committee_membership['ex_officio_members']))
+                            <div class="mt-3">
+                                <h6 class="fw-bold text-warning mb-2">Ex-Officio Members</h6>
+                                <ul class="list-unstyled">
+                                    @foreach($aboutPage->steering_committee_membership['ex_officio_members'] as $member)
+                                        <li class="mb-1">
+                                            <i class="fas fa-check-circle text-warning me-2"></i>
+                                            {{ $member }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="{{ $aboutPage->action_plan_icon ?? 'fas fa-file-alt' }} fa-lg text-info"></i>
+                            </div>
+                            <h4 class="fw-bold mb-0 text-dark">{{ $aboutPage->action_plan_title ?? '2. Malawi National Action Plan' }}</h4>
+                        </div>
+                        <p class="text-muted">
+                            {{ $aboutPage->action_plan_content ?? 'The Malawi OGP National Action Plan 2023–2025 outlines the country\'s commitments toward transparency, accountability, and citizen engagement. It was developed collaboratively with input from government and civil society.' }}
+                        </p>
+                        @if($aboutPage->action_plan_description)
+                        <p class="text-muted">
+                            {{ $aboutPage->action_plan_description }}
+                        </p>
+                        @endif
+                    </div>
+                    </div>
+                </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="{{ $aboutPage->secretariat_icon ?? 'fas fa-building' }} fa-lg text-warning"></i>
+                            </div>
+                            <h4 class="fw-bold mb-0 text-dark">{{ $aboutPage->secretariat_title ?? '3. Secretariat' }}</h4>
+                        </div>
+                        <p class="text-muted">
+                            {{ $aboutPage->secretariat_content ?? 'The Secretariat provides administrative and technical support to the OGP Malawi initiative, coordinating activities between government agencies, civil society organizations, and other stakeholders.' }}
+                        </p>
+                        @if($aboutPage->secretariat_description)
+                        <p class="text-muted">
+                            {{ $aboutPage->secretariat_description }}
+                        </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <i class="{{ $aboutPage->technical_working_groups_icon ?? 'fas fa-cogs' }} fa-lg text-primary"></i>
+                            </div>
+                            <h4 class="fw-bold mb-0 text-dark">{{ $aboutPage->technical_working_groups_title ?? '4. Technical Working Groups' }}</h4>
+                        </div>
+                        <p class="text-muted mb-3">
+                            {{ $aboutPage->technical_working_groups_content ?? 'Technical Working Groups (TWGs) are formed to coordinate and track progress on specific commitment areas within the action plan. These groups consist of representatives from government ministries, civil society, and technical experts who meet regularly to review progress and provide implementation support.' }}
+                        </p>
+                        @if($aboutPage->technical_working_groups_list && is_array($aboutPage->technical_working_groups_list))
+                        <ol class="list-unstyled mb-0">
+                            @foreach($aboutPage->technical_working_groups_list as $index => $twg)
+                            <li class="mb-1">
+                                <h6 class="fw-bold text-dark mb-0">{{ $index }}. {{ $twg }}</h6>
+                            </li>
+                            @endforeach
+                        </ol>
+                        @else
+                        <ol class="list-unstyled mb-0">
+
+                        </ol>
+                        @endif
+                    </div>
+                </div>
+                    </div>
+                </div>
 
 
-       <!-- 4. Technical Working Groups -->
-<h3 class="fw-semibold mt-5 mb-3">4. Technical Working Groups</h3>
-<p class="lead">
-  Technical Working Groups (TWGs) are formed to coordinate and track progress on specific commitment areas within the action plan. These groups consist of representatives from government ministries, civil society, and technical experts who meet regularly to review progress and provide implementation support.
-</p>
 
-<ul class="list-group list-group-flush">
-  <li class="list-group-item py-4">
-    <h5 class="fw-bold mb-1">1. Open Parliament</h5>
-    <p class="mb-2">Improving transparency on public debt and government financing through parliamentary openness and accountability measures.</p>
-    <a href="{{ route('technical.detail', ['slug' => 'open-parliament']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
-  </li>
+            </div>
+        </section>
 
-  <li class="list-group-item py-4">
-    <h5 class="fw-bold mb-1">2. Digital Governance</h5>
-    <p class="mb-2">Accelerating adoption of e-government services and increasing ICT utilization among Malawians for better service delivery.</p>
-    <a href="{{ route('technical.detail', ['slug' => 'digital-governance']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
-  </li>
-
-  <li class="list-group-item py-4">
-    <h5 class="fw-bold mb-1">3. Natural Resources</h5>
-    <p class="mb-2">Enhancing transparency in natural resource governance including contracts, production, exports and revenue management.</p>
-    <a href="{{ route('technical.detail', ['slug' => 'natural-resources']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
-  </li>
-
-  <li class="list-group-item py-4">
-    <h5 class="fw-bold mb-1">4. Right to Information</h5>
-    <p class="mb-2">Actualizing transparency on political party and campaign financing through implementation of relevant legislation.</p>
-    <a href="{{ route('technical.detail', ['slug' => 'right-to-information']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
-  </li>
-
-  <li class="list-group-item py-4">
-    <h5 class="fw-bold mb-1">5. Anti-Corruption</h5>
-    <p class="mb-2">Strengthening anti-corruption measures through open contracting and beneficial ownership transparency.</p>
-    <a href="{{ route('technical.detail', ['slug' => 'anti-corruption']) }}" class="btn btn-sm btn-outline-success">Explore More</a>
-  </li>
-</ul>
-
+<!-- Call to Action -->
+<section class="py-5 bg-gradient-to-r from-success to-info text-white">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h2 class="display-4 fw-bold mb-4">Get Involved</h2>
+                <p class="lead mb-4 fs-5">
+                    Join us in building a more transparent, accountable, and participatory government in Malawi. Your voice matters in shaping our democracy.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ route('technical.group') }}" class="btn btn-light btn-lg px-5 py-3">
+                        <i class="fas fa-users me-2"></i>Join Working Groups
+                    </a>
+                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                        <i class="fas fa-download me-2"></i>Download Resources
+                    </a>
+                </div>
+      </div>
       </div>
     </div>
   </section>
-
-
-
-
-
-    </div>
 @endsection

@@ -1,435 +1,197 @@
 @extends('layouts.frontendlayout')
-<style>
-    /* Single News Article with Sidebar Styles */
-    .single-news-page {
-        padding: 80px 0;
-        background-color: #f8fafc;
-    }
-
-    .article-layout {
-        display: grid;
-        grid-template-columns: 1fr 300px;
-        gap: 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .article-container {
-        background: #fff;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .sidebar-widget {
-        background: #fff;
-        border-radius: 10px;
-        padding: 25px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .widget-title {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #1bbd36;
-        color: #333;
-    }
-
-    .sidebar-news-item {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .sidebar-news-item:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
-    }
-
-    .sidebar-news-image {
-        width: 80px;
-        height: 60px;
-        object-fit: cover;
-        border-radius: 5px;
-    }
-
-    .sidebar-news-content {
-        flex: 1;
-    }
-
-    .sidebar-news-title {
-        font-size: 0.95rem;
-        font-weight: 500;
-        margin-bottom: 5px;
-        line-height: 1.4;
-    }
-
-    .sidebar-news-date {
-        font-size: 0.8rem;
-        color: #999;
-    }
-
-    .event-item {
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px dashed #ddd;
-    }
-
-    .event-item:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
-    }
-
-    .event-date {
-        display: inline-block;
-        background: #f0f7ff;
-        color: #1bbd36;
-        padding: 3px 8px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: 500;
-        margin-bottom: 5px;
-    }
-
-    .event-title {
-        font-size: 0.95rem;
-        font-weight: 500;
-        line-height: 1.4;
-    }
-
-    .highlight-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-
-    .highlight-icon {
-        color: #1bbd36;
-        font-size: 1.2rem;
-    }
-
-    .highlight-text {
-        font-size: 0.95rem;
-    }
-    /* OGP Hero Section */
-    .hero-section {
-        background: linear-gradient(135deg, #1bbd36 0%, #283593 100%);
-        color: white;
-        padding: 120px 0;
-        position: relative;
-        overflow: hidden;
-        text-align: center;
-    }
-
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.15;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .hero-content h1 {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-    }
-
-    .hero-content p {
-        font-size: 1.2rem;
-        opacity: 0.9;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-    /* Existing article styles (from previous design) */
-    .article-header {
-        position: relative;
-    }
-
-    .article-image {
-        width: 100%;
-        height: 450px;
-        object-fit: cover;
-    }
-
-    .article-meta {
-        padding: 25px 40px 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .article-date {
-        font-size: 0.95rem;
-        color: #999;
-    }
-
-    .article-category {
-        background: #1bbd36;
-        color: white;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-
-    .article-content {
-        padding: 0 40px 40px;
-    }
-
-    .article-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        margin-bottom: 20px;
-        line-height: 1.3;
-    }
-
-    .article-body {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #444;
-    }
-
-    .article-body p {
-        margin-bottom: 25px;
-    }
-
-    .article-body img {
-        max-width: 100%;
-        height: auto;
-        margin: 30px 0;
-        border-radius: 8px;
-    }
-
-    .article-footer {
-        padding: 30px 40px;
-        border-top: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .share-buttons a {
-        display: inline-block;
-        margin-right: 10px;
-        color: #555;
-        transition: color 0.2s;
-    }
-
-    .share-buttons a:hover {
-        color: #1bbd36;
-    }
-
-    .back-to-news {
-        color: #1bbd36;
-        font-weight: 500;
-        text-decoration: none;
-    }
-
-    .back-to-news:hover {
-        text-decoration: underline;
-    }
-
-    /* Related News Section */
-    .related-news {
-        padding: 60px 0 80px;
-        grid-column: 1 / -1;
-    }
-
-    .section-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .related-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 25px;
-    }
-
-    @media (max-width: 992px) {
-        .article-layout {
-            grid-template-columns: 1fr;
-        }
-
-        .sidebar {
-            margin-top: 40px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .single-news-page {
-            padding: 40px 0;
-        }
-
-        .article-image {
-            height: 300px;
-        }
-
-        .article-meta,
-        .article-content,
-        .article-footer {
-            padding: 20px;
-        }
-
-        .article-title {
-            font-size: 1.8rem;
-        }
-
-        .related-news {
-            padding: 40px 0;
-        }
-    }
-</style>
 
 @section('content')
-<section class="hero-section">
-    <div class="hero-content">
-        <h2>News Article</h2>
-        <p>Stay informed with the latest developments from OGP Malawi</p>
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-dark to-secondary text-white py-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-white-50">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('news') }}" class="text-decoration-none text-white-50">News</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ $article->title }}</li>
+            </ol>
+        </nav>
     </div>
 </section>
 
-<section class="single-news-page">
+<!-- Article Content -->
+<section class="py-5">
     <div class="container">
-        <div class="article-layout">
-            <div class="article-container">
-                <div class="article-header">
-                    <img src="{{asset('/images/he.jpg')}}" alt="News article image" class="article-image">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Article Header -->
+                <div class="mb-4">
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="text-muted small">{{ $article->technicalWorkingGroup->name ?? 'General' }}</span>
+                        @if($article->is_featured)
+                            <span class="text-warning small ms-2">• Featured</span>
+                        @endif
+                        <span class="text-muted small ms-2">• {{ $article->author ?? 'OGP Secretariat' }}</span>
+                    </div>
+                    <h1 class="display-4 fw-bold mb-3 text-dark">{{ $article->title }}</h1>
+                    <div class="d-flex align-items-center text-muted mb-4">
+                        <i class="fas fa-calendar me-2"></i>
+                        <span>{{ $article->published_at ? $article->published_at->format('F d, Y') : 'Draft' }}</span>
+                        <span class="mx-2">•</span>
+                        <i class="fas fa-clock me-2"></i>
+                        <span>{{ $article->published_at ? $article->published_at->diffForHumans() : 'Not published' }}</span>
+                    </div>
                 </div>
 
-                <div class="article-meta">
-                    <span class="article-date">Published: May 25, 2025</span>
-                    <span class="article-category">Transparency</span>
+                <!-- Featured Image -->
+                @if($article->featured_image)
+                <div class="mb-4">
+                    <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="img-fluid rounded shadow">
+                </div>
+                @else
+                <div class="mb-4">
+                    <img src="{{ asset('images/news-placeholder.jpg') }}" alt="{{ $article->title }}" class="img-fluid rounded shadow">
+                </div>
+                @endif
+
+                <!-- Article Body -->
+                <div class="article-content mb-5">
+                    {!! $article->content !!}
                 </div>
 
-                <div class="article-content">
-                    <h1 class="article-title">OGP Malawi Launches New Transparency Campaign to Empower Citizens</h1>
+                <!-- Article Tags -->
+                @if($article->tags)
+                <div class="mb-5">
+                    <h6 class="fw-bold text-dark mb-3">Tags:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach(explode(',', $article->tags) as $tag)
+                        <span class="badge bg-light text-dark border">{{ trim($tag) }}</span>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
 
-                    <div class="article-body">
-                        <p>The Open Government Partnership (OGP) Malawi has launched an ambitious new transparency campaign aimed at increasing citizen access to government procurement data and improving accountability in public spending.</p>
-
-                        <p>The initiative, dubbed "Open Contracts Malawi," will make procurement information from all government ministries and departments available through a centralized digital platform. This marks a significant step forward in the country's commitment to open governance.</p>
-
-                        <img src="{{asset('/images/openweek.jpg')}}" alt="Campaign launch event">
-
-                        <p>At the launch event in Lilongwe, OGP Malawi Coordinator Jane Banda emphasized how this initiative aligns with Malawi's National Action Plan. "When citizens can see how public funds are being spent, it creates a powerful check against misuse and builds trust between government and the people," Banda stated.</p>
-
-                        <h3>Key Features of the Campaign</h3>
-
-                        <p>The transparency campaign includes several innovative components:</p>
-
-                        <ul>
-                            <li>A user-friendly portal with searchable contract data</li>
-                            <li>Regular disclosure of tender awards and contract performance</li>
-                            <li>Capacity building for civil society to monitor implementation</li>
-                            <li>Public awareness campaigns in all districts</li>
-                        </ul>
-
-                        <p>The system will initially cover major procurement activities, with plans to expand to all government contracts by the end of 2025. The platform will provide details including contract amounts, winning bidders, delivery timelines, and performance assessments.</p>
-
-                        <p>Minister of Finance Hon. Gondwe praised the initiative, noting that "transparency in procurement is essential for combating corruption and ensuring taxpayers get value for money." The minister committed to ensuring all ministries comply with the new disclosure requirements.</p>
+                <!-- Share Article -->
+                <div class="card border-0 shadow-sm mb-5">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold text-dark mb-3">Share this article:</h6>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-outline-primary btn-sm" onclick="shareOnFacebook()">
+                                <i class="fab fa-facebook-f me-1"></i>Facebook
+                            </a>
+                            <a href="#" class="btn btn-outline-info btn-sm" onclick="shareOnTwitter()">
+                                <i class="fab fa-twitter me-1"></i>Twitter
+                            </a>
+                            <a href="#" class="btn btn-outline-success btn-sm" onclick="shareOnLinkedIn()">
+                                <i class="fab fa-linkedin-in me-1"></i>LinkedIn
+                            </a>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="copyLink()">
+                                <i class="fas fa-link me-1"></i>Copy Link
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Latest News Widget -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Latest News</h3>
-                    <div class="sidebar-news-item">
-                        <img src="{{asset('/images/he-chakwera.jpg')}}" alt="News thumbnail" class="sidebar-news-image">
-                        <div class="sidebar-news-content">
-                            <h4 class="sidebar-news-title">Open Data Portal Receives Major Update</h4>
-                            <div class="sidebar-news-date">May 12, 2025</div>
-                        </div>
+            <div class="col-lg-4">
+                <!-- Article Info -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0 fw-bold">Article Information</h5>
                     </div>
-                    <div class="sidebar-news-item">
-                        <img src="{{asset('/images/openweek.jpg')}}" alt="News thumbnail" class="sidebar-news-image">
-                        <div class="sidebar-news-content">
-                            <h4 class="sidebar-news-title">Civil Society Roundtable Discussion</h4>
-                            <div class="sidebar-news-date">April 30, 2025</div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <strong class="text-dark">Author:</strong>
+                            <p class="mb-0 text-muted">{{ $article->author ?? 'OGP Secretariat' }}</p>
                         </div>
-                    </div>
-                    <div class="sidebar-news-item">
-                        <img src="{{asset('/images/he.jpg')}}" alt="News thumbnail" class="sidebar-news-image">
-                        <div class="sidebar-news-content">
-                            <h4 class="sidebar-news-title">Annual Report on Government Reforms</h4>
-                            <div class="sidebar-news-date">April 15, 2025</div>
+                        <div class="mb-3">
+                            <strong class="text-dark">Published:</strong>
+                            <p class="mb-0 text-muted">{{ $article->published_at ? $article->published_at->format('F d, Y') : 'Draft' }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong class="text-dark">Category:</strong>
+                            <p class="mb-0 text-muted">{{ $article->technicalWorkingGroup->name ?? 'General' }}</p>
+                        </div>
+                        <div class="mb-0">
+                            <strong class="text-dark">Status:</strong>
+                            <p class="mb-0 text-muted">{{ $article->is_featured ? 'Featured' : 'Regular' }}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Highlights Widget -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Highlights</h3>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">Malawi improves in Open Budget Index</span>
+                <!-- Related Articles -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0 fw-bold">Related Articles</h5>
                     </div>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">New anti-corruption measures implemented</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">Citizen engagement portal launched</span>
-                    </div>
-                    <div class="highlight-item">
-                        <span class="highlight-icon"><i class="fas fa-check-circle"></i></span>
-                        <span class="highlight-text">OGP Malawi receives international recognition</span>
-                    </div>
-                </div>
-
-                <!-- Events Widget -->
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">Upcoming Events</h3>
-                    <div class="event-item">
-                        <div class="event-date">JUN 15, 2025</div>
-                        <h4 class="event-title">Open Government Forum in Blantyre</h4>
-                    </div>
-                    <div class="event-item">
-                        <div class="event-date">JUL 3-5, 2025</div>
-                        <h4 class="event-title">Regional OGP Summit</h4>
-                    </div>
-                    <div class="event-item">
-                        <div class="event-date">AUG 10, 2025</div>
-                        <h4 class="event-title">Public Consultation on Data Privacy</h4>
+                    <div class="card-body p-0">
+                        @forelse($relatedArticles as $related)
+                        <div class="d-flex p-3 border-bottom">
+                            <div class="me-3">
+                                @if($related->featured_image)
+                                    <img src="{{ asset('storage/' . $related->featured_image) }}" alt="{{ $related->title }}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('images/news-placeholder.jpg') }}" alt="{{ $related->title }}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                @endif
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1 fw-bold">
+                                    <a href="{{ route('news.detail', $related->slug) }}" class="text-decoration-none text-dark">{{ Str::limit($related->title, 50) }}</a>
+                                </h6>
+                                <small class="text-muted">{{ $related->published_at ? $related->published_at->format('M d, Y') : 'Draft' }}</small>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="p-3 text-center">
+                            <p class="text-muted mb-0">No related articles found.</p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-gradient-to-r from-dark to-secondary text-white">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <h2 class="display-4 fw-bold mb-4">Stay Updated</h2>
+                <p class="lead mb-4 fs-5">
+                    Subscribe to our newsletter to receive the latest news and updates about Open Government Partnership Malawi.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="#" class="btn btn-light btn-lg px-5 py-3">
+                        <i class="fas fa-envelope me-2"></i>Subscribe
+                    </a>
+                    <a href="{{ route('news') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                        <i class="fas fa-newspaper me-2"></i>View All News
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function shareOnFacebook() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+}
+
+function shareOnTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent('{{ $article->title }}');
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+}
+
+function shareOnLinkedIn() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+}
+
+function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+        alert('Link copied to clipboard!');
+    });
+}
+</script>
 @endsection
