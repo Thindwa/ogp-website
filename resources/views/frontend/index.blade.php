@@ -14,7 +14,7 @@
       <div class="carousel-inner">
             @forelse($galleryItems as $index => $item)
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <div class="position-relative" style="height: 60vh; min-height: 400px;">
+                    <div class="position-relative" style="height: 50vh; min-height: 300px;">
                         @if($item->getFirstMediaUrl('gallery'))
                             <img src="{{ $item->getFirstMediaUrl('gallery') }}"
                                  class="d-block w-100 h-100"
@@ -22,53 +22,53 @@
                                  alt="{{ $item->alt_text ?: $item->title }}">
                         @else
                             <div class="d-block w-100 h-100 bg-gradient-to-r from-dark to-secondary d-flex align-items-center justify-content-center">
-                                <div class="text-center text-white">
-                                    <i class="fas fa-image fa-5x mb-3 opacity-50"></i>
-                                    <h3 class="fw-bold">{{ $item->title }}</h3>
+                                <div class="text-center text-white px-3">
+                                    <i class="fas fa-image fa-3x fa-5x-md mb-2 mb-md-3 opacity-50"></i>
+                                    <h3 class="h4 h3-md fw-bold">{{ $item->title }}</h3>
                                 </div>
                             </div>
                         @endif
                         <!-- Text overlay positioned at bottom -->
-                        <div class="carousel-caption d-none d-md-block position-absolute bottom-0 start-0 end-0 text-start">
-                            <div class="bg-gradient-to-top from-dark to-transparent p-4">
+                        <div class="carousel-caption position-absolute bottom-0 start-0 end-0 text-start">
+                            <div class="bg-gradient-to-top from-dark to-transparent p-2 p-md-4">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-lg-6">
-                                            <h2 class="display-5 fw-bold mb-3 text-white">{{ $item->title }}</h2>
+                                        <div class="col-12 col-lg-6">
+                                            <h2 class="h3 h2-md display-5-md fw-light mb-2 mb-md-3 text-white">{{ $item->title }}</h2>
                                             @if($item->description)
-                                                <p class="lead mb-4 text-white">{{ Str::limit($item->description, 120) }}</p>
+                                                <p class="small lead-md mb-3 mb-md-4 text-white d-none d-md-block">{{ Str::limit($item->description, 120) }}</p>
                                             @endif
-                                            <div class="d-flex gap-3 flex-wrap">
-                                                <a href="{{ route('about') }}" class="btn btn-success btn-lg px-4 py-2">
-                                                    <i class="fas fa-info-circle me-2"></i>Learn More
+                                            <div class="d-flex gap-2 gap-md-3 flex-wrap">
+                                                <a href="{{ route('about') }}" class="btn btn-success btn-sm btn-lg-md px-3 px-md-4 py-1 py-md-2 rounded-pill">
+                                                    <i class="fas fa-info-circle me-1 me-md-2"></i>Learn More
                                                 </a>
-                                                <a href="{{ route('gallery') }}" class="btn btn-outline-light btn-lg px-4 py-2">
-                                                    <i class="fas fa-images me-2"></i>View Gallery
+                                                <a href="{{ route('gallery') }}" class="btn btn-outline-light btn-sm btn-lg-md px-3 px-md-4 py-1 py-md-2 rounded-pill">
+                                                    <i class="fas fa-images me-1 me-md-2"></i>View Gallery
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+            </div>
           </div>
         </div>
             @empty
                 <div class="carousel-item active">
-                    <div class="position-relative" style="height: 60vh; min-height: 400px;">
+                    <div class="position-relative" style="height: 50vh; min-height: 300px;">
                         <div class="d-block w-100 h-100 bg-gradient-to-r from-dark to-secondary d-flex align-items-center justify-content-center">
-                            <div class="text-center text-white">
-                                <i class="fas fa-images fa-5x mb-3 opacity-50"></i>
-                                <h2 class="display-4 fw-bold mb-3">Open Government Partnership Malawi</h2>
-                                <p class="lead mb-4 fs-4">
+                            <div class="text-center text-white px-3">
+                                <i class="fas fa-images fa-3x fa-5x-md mb-2 mb-md-3 opacity-50"></i>
+                                <h2 class="h3 h2-md display-4-md fw-light mb-2 mb-md-3">Open Government Partnership Malawi</h2>
+                                <p class="small lead-md mb-3 mb-md-4 lh-lg fs-6 fs-md-5 d-none d-md-block">
                                     Promoting transparency, accountability, and citizen participation in government through collaborative initiatives and innovative solutions.
                                 </p>
-                                <div class="d-flex gap-3 flex-wrap justify-content-center">
-                                    <a href="{{ route('about') }}" class="btn btn-light btn-lg px-4 py-3">
-                                        <i class="fas fa-info-circle me-2"></i>Learn More
+                                <div class="d-flex gap-2 gap-md-3 flex-wrap justify-content-center">
+                                    <a href="{{ route('about') }}" class="btn btn-light btn-sm btn-lg-md px-3 px-md-4 py-2 py-md-3 rounded-pill">
+                                        <i class="fas fa-info-circle me-1 me-md-2"></i>Learn More
                                     </a>
-                                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-lg px-4 py-3">
-                                        <i class="fas fa-file-alt me-2"></i>View Documents
+                                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-sm btn-lg-md px-3 px-md-4 py-2 py-md-3 rounded-pill">
+                                        <i class="fas fa-file-alt me-1 me-md-2"></i>View Documents
                                     </a>
             </div>
           </div>
@@ -86,47 +86,121 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-</section>
+  </section>
+
 
 <!-- Mission & Vision Section -->
-<section class="py-5 bg-light">
+<section class="py-3 py-md-5 bg-white">
     <div class="container">
-        <div class="row g-5">
-        @php
-            $mission = $homePage;
-            $vision = $homePage;
-        @endphp
+        <!-- Section Header -->
+        <div class="text-center mb-3 mb-md-5">
+            <h2 class="h2 h1-md display-4-md fw-light text-dark mb-0">Mission & Vision</h2>
+        </div>
+
+        <div class="row g-0">
+            @php
+                $mission = $homePage;
+                $vision = $homePage;
+            @endphp
 
             @if($mission)
-            <div class="col-lg-6">
-                <div class="text-center">
-                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                        <i class="{{ $mission->icon ?? 'fas fa-eye' }} fa-3x text-success"></i>
+            <div class="col-12 col-lg-6">
+                <div class="p-3 p-md-5 h-100 d-flex flex-column justify-content-center" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+                    <div class="mb-3 mb-md-4">
+                        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start mb-3">
+                            <div class="flex-shrink-0 mb-3 mb-md-0">
+                                <div class="bg-warning text-white d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border-radius: 15px;">
+                                    <i class="{{ $mission->mission_icon }} fa-lg fa-2x-md"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-0 ms-md-4 text-center text-md-start">
+                                <h3 class="h4 h2-md fw-bold text-dark mb-0">{{ $mission->mission_title }}</h3>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="h2 fw-bold text-dark mb-3">{{ $mission->mission_title ?? 'Our Mission' }}</h3>
-                    <p class="lead text-muted">
-                        {{ $mission->mission_content ?? 'To promote transparency, accountability, and citizen participation in government through collaborative initiatives and innovative solutions that strengthen democratic governance in Malawi.' }}
+                    <p class="text-muted lh-lg mb-0 fs-6 fs-md-5 text-center text-md-start">
+                        {{ $mission->mission_content }}
                     </p>
                 </div>
-      </div>
+            </div>
             @endif
 
             @if($vision)
-            <div class="col-lg-6">
-                <div class="text-center">
-                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                        <i class="{{ $vision->icon ?? 'fas fa-rocket' }} fa-3x text-warning"></i>
+            <div class="col-12 col-lg-6">
+                <div class="p-3 p-md-5 h-100 d-flex flex-column justify-content-center bg-dark text-white">
+                    <div class="mb-3 mb-md-4">
+                        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start mb-3">
+                            <div class="flex-shrink-0 mb-3 mb-md-0">
+                                <div class="bg-warning text-white d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border-radius: 15px;">
+                                    <i class="{{ $vision->vision_icon }} fa-lg fa-2x-md"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-0 ms-md-4 text-center text-md-start">
+                                <h3 class="h4 h2-md fw-bold text-white mb-0">{{ $vision->vision_title }}</h3>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="h2 fw-bold text-dark mb-3">{{ $vision->vision_title ?? 'Our Vision' }}</h3>
-                    <p class="lead text-muted">
-                        {{ $vision->vision_content ?? 'A Malawi where government is open, transparent, and accountable to its citizens, fostering trust, participation, and sustainable development for all.' }}
+                    <p class="text-light lh-lg mb-0 fs-6 fs-md-5 text-center text-md-start">
+                        {{ $vision->vision_content }}
                     </p>
                 </div>
             </div>
             @endif
         </div>
     </div>
-  </section>
+</section>
+
+       <!-- About Section -->
+@if($homePage->about_title || $homePage->about_description)
+<section class="py-3 py-md-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            @if($homePage->about_image)
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="position-relative">
+                    <div class="position-relative overflow-hidden" style="border-radius: 20px;">
+                        <img src="{{ asset('storage/' . $homePage->about_image) }}"
+                             alt="{{ $homePage->about_title ?? 'About OGP Malawi' }}"
+                             class="img-fluid w-100"
+                             style="height: 300px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            <div class="col-12 col-lg-6">
+                <div class="ps-0 ps-lg-5">
+                    @if($homePage->about_title)
+                    <div class="mb-3 mb-md-4 text-center text-lg-start">
+                        <h2 class="h2 h1-md display-4-md fw-light text-dark mb-3 mb-md-4">
+                            {{ $homePage->about_title }}
+                        </h2>
+                    </div>
+                    @endif
+
+                    @if($homePage->about_description)
+                    <div class="mb-4 mb-md-5 text-center text-lg-start">
+                        <p class="lead text-muted lh-lg mb-0 fs-6 fs-md-5">
+                            {{ $homePage->about_description }}
+                        </p>
+                    </div>
+                    @endif
+
+                    <!-- Modern CTA buttons -->
+                    <div class="d-flex flex-column flex-sm-row gap-2 gap-md-3 justify-content-center justify-content-lg-start">
+                        <a href="{{ route('about') }}" class="btn btn-success btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
+                            Learn More About Us
+                        </a>
+                        <a href="{{ route('documents') }}" class="btn btn-outline-dark btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
+                            View Our Documents
+                        </a>
+                    </div>
+                </div>
+          </div>
+        </div>
+    </div>
+</section>
+@endif
 
 <!-- Who is in OGP Section -->
 @php
@@ -136,64 +210,73 @@
 @endphp
 
 @if($homePage->who_is_ogp_title || $homePage->how_ogp_works_title || $homePage->malawi_ogp_title)
-<section class="py-5">
+<section class="py-5 bg-white">
     <div class="container">
         <div class="row">
-            <div class="col-lg-10 mx-auto">
+            <div class="col-lg-12 mx-auto">
                 @if($homePage->who_is_ogp_title)
-                 <div class="d-flex align-items-center mb-3">
-                       <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                        <i class="fas fa-globe fa-2x text-primary"></i>
-                    </div>
-                    <h2 class="h1 fw-bold text-dark mb-1">{{ $homePage->who_is_ogp_title }}</h2>
-
+                <div class="text-center mb-5">
+                    <h2 class="display-4 fw-light text-dark mb-0">{{ $homePage->who_is_ogp_title }}</h2>
                 </div>
                 @endif
 
                 <div class="row g-4">
                     @if($homePage->who_is_ogp_content)
                     <div class="col-12">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <p class="lead text-muted mb-4">
-                                    {!! $homePage->who_is_ogp_content !!}
-                                </p>
+                        <div class="bg-dark bg-opacity-75 p-3 p-md-5 rounded-4 shadow-sm border-start border-5 border-warning">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-lg-1 mb-3 mb-lg-0">
+                                    <div class="text-center">
+                                        <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                            <i class="fas fa-globe fa-lg fa-xl"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-11">
+                                    <p class="lead text-white mb-0 lh-lg fs-6 fs-md-5 text-center text-lg-start">
+                                        {!! $homePage->who_is_ogp_content !!}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     @endif
 
                     @if($homePage->how_ogp_works_content)
-                    <div class="col-md-6">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                        <i class="fas fa-cogs fa-lg text-success"></i>
+                    <div class="col-12 col-md-6">
+                        <div class="bg-white p-3 p-md-5 h-100 shadow-sm rounded-4 border border-light">
+                            <div class="d-flex flex-column flex-md-row align-items-start mb-4">
+                                <div class="flex-shrink-0 mb-3 mb-md-0">
+                                    <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center me-0 me-md-4 mx-auto" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-cogs fa-lg text-white"></i>
                                     </div>
-                                    <h4 class="h5 fw-bold text-dark mb-0">{{ $homePage->how_ogp_works_title ?? 'How Does OGP Work?' }}</h4>
                                 </div>
-                                <p class="text-muted mb-0">
-                                    {{ $homePage->how_ogp_works_content }}
-                                </p>
+                                <div class="flex-grow-1 text-center text-md-start">
+                                    <h4 class="h5 h4-md fw-bold text-dark mb-3">{{ $homePage->how_ogp_works_title }}</h4>
+                                    <p class="text-muted lh-lg mb-0 small">
+                                        {{ $homePage->how_ogp_works_content }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     @endif
 
                     @if($homePage->malawi_ogp_content)
-                    <div class="col-md-6">
-                        <div class="card border-0 shadow-sm h-100">
-                            <div class="card-body p-4">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                        <i class="fas fa-flag fa-lg text-warning"></i>
+                    <div class="col-12 col-md-6">
+                        <div class="bg-white p-3 p-md-5 h-100 shadow-sm rounded-4 border border-light">
+                            <div class="d-flex flex-column flex-md-row align-items-start mb-4">
+                                <div class="flex-shrink-0 mb-3 mb-md-0">
+                                    <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center me-0 me-md-4 mx-auto" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-flag fa-lg text-white"></i>
                                     </div>
-                                    <h4 class="h5 fw-bold text-dark mb-0">{{ $homePage->malawi_ogp_title ?? 'When Did Malawi Join OGP?' }}</h4>
                                 </div>
-                                <p class="text-muted mb-0">
-                                    {!! $homePage->malawi_ogp_content !!}
-                                </p>
+                                <div class="flex-grow-1 text-center text-md-start">
+                                    <h4 class="h5 h4-md fw-bold text-dark mb-3">{{ $homePage->malawi_ogp_title }}</h4>
+                                    <p class="text-muted lh-lg mb-0 small">
+                                        {!! $homePage->malawi_ogp_content !!}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -201,17 +284,21 @@
 
                     @if($malawiOgp && $malawiOgp->description)
                     <div class="col-12">
-                        <div class="card border-0 bg-light">
-                            <div class="card-body p-4 text-center">
-                                <p class="text-muted mb-0">
-                                    {!! $malawiOgp->description !!}
-                                </p>
+                        <div class="bg-dark text-white p-3 p-md-5 text-center rounded-4">
+                            <div class="mb-3 mb-md-4">
+                                <i class="fas fa-quote-left fa-2x fa-3x-md opacity-25"></i>
+                            </div>
+                            <p class="lead mb-0 lh-lg fs-5 fs-md-4 fw-light">
+                                {!! $malawiOgp->description !!}
+                            </p>
+                            <div class="mt-3 mt-md-4">
+                                <i class="fas fa-quote-right fa-2x fa-3x-md opacity-25"></i>
                             </div>
                         </div>
                     </div>
                     @endif
                 </div>
-          </div>
+            </div>
         </div>
     </div>
 </section>
@@ -220,10 +307,10 @@
 <!-- Latest News Section -->
 <section class="py-5">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-4 fw-bold mb-3 text-dark">Latest News</h2>
-            <p class="lead text-muted fs-5">Stay informed about the latest developments in Open Government Partnership Malawi</p>
-            <div class="border-bottom border-3 border-success mx-auto" style="width: 100px;"></div>
+        <div class="text-center mb-3 mb-md-5">
+            <h2 class="h2 h1-md display-4-md fw-light text-dark mb-0">Latest News</h2>
+            <div class="border-bottom border-3 border-success mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
+            <p class="lead text-muted lh-lg mb-0 fs-6 fs-md-5">Stay informed about the latest developments in Open Government Partnership Malawi</p>
         </div>
 
         <div class="row g-4">
@@ -244,7 +331,7 @@
                                 <span class="text-warning small ms-2">• Featured</span>
                             @endif
                         </div>
-                        <h5 class="card-title fw-bold mb-3">
+                        <h5 class="card-title fw-semibold mb-3">
                             <a href="{{ route('news.detail', $news->slug) }}" class="text-decoration-none text-dark">{{ $news->title }}</a>
                         </h5>
                         <p class="card-text text-muted flex-grow-1 mb-4">{{ Str::limit($news->excerpt, 120) }}</p>
@@ -273,8 +360,8 @@
             @endforelse
         </div>
 
-        <div class="text-center mt-5">
-            <a href="{{ route('news') }}" class="btn btn-success btn-lg px-5 py-3">
+        <div class="text-center mt-3 mt-md-5">
+            <a href="{{ route('news') }}" class="btn btn-success btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
                 <i class="fas fa-newspaper me-2"></i>View All News
             </a>
       </div>
@@ -284,10 +371,10 @@
 <!-- Featured Achievements Section -->
 <section class="py-5 bg-light">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-4 fw-bold mb-3 text-dark">Recent Achievements</h2>
-            <p class="lead text-muted fs-5">Celebrating our progress in promoting transparency and accountability</p>
-            <div class="border-bottom border-3 border-warning mx-auto" style="width: 100px;"></div>
+        <div class="text-center mb-3 mb-md-5">
+            <h2 class="h2 h1-md display-4-md fw-light text-dark mb-0">Recent Achievements</h2>
+            <div class="border-bottom border-3 border-warning mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
+            <p class="lead text-muted lh-lg mb-0 fs-6 fs-md-5">Celebrating our progress in promoting transparency and accountability</p>
         </div>
 
         <div class="row g-4">
@@ -300,7 +387,7 @@
                                 <i class="fas fa-trophy fa-3x text-warning"></i>
                             </div>
                         </div>
-                        <h5 class="card-title fw-bold mb-3">{{ $achievement->title }}</h5>
+                        <h5 class="card-title fw-semibold mb-3">{{ $achievement->title }}</h5>
                         <p class="card-text text-muted flex-grow-1 mb-4">{{ Str::limit($achievement->description, 150) }}</p>
                         <div class="mt-auto">
                             <div class="mb-3">
@@ -324,8 +411,8 @@
             @endforelse
         </div>
 
-        <div class="text-center mt-5">
-            <a href="{{ route('achievements') }}" class="btn btn-warning btn-lg px-5 py-3">
+        <div class="text-center mt-3 mt-md-5">
+            <a href="{{ route('achievements') }}" class="btn btn-warning btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
                 <i class="fas fa-trophy me-2"></i>View All Achievements
             </a>
       </div>
@@ -337,15 +424,16 @@
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
-                <h2 class="display-4 fw-bold mb-4">Get Involved</h2>
-                <p class="lead mb-4 fs-5">
+                <h2 class="h2 h1-md display-4-md fw-light mb-3 mb-md-4 text-white">Get Involved</h2>
+                <div class="border-bottom border-3 border-warning mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
+                <p class="lead mb-3 mb-md-4 lh-lg fs-6 fs-md-5 text-white">
                     Join us in building a more transparent, accountable, and participatory government in Malawi.
                 </p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="{{ route('technical.group') }}" class="btn btn-light btn-lg px-5 py-3">
+                <div class="d-flex gap-2 gap-md-3 justify-content-center flex-wrap">
+                    <a href="{{ route('technical.group') }}" class="btn btn-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
                         <i class="fas fa-users me-2"></i>Join Working Group
                     </a>
-                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
                         <i class="fas fa-download me-2"></i>Download Resources
                     </a>
                 </div>

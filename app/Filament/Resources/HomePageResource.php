@@ -27,19 +27,19 @@ class HomePageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Hero Section')
-                    ->schema([
-                        Forms\Components\TextInput::make('hero_title')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('hero_subtitle')
-                            ->maxLength(255),
-                        Forms\Components\Textarea::make('hero_description')
-                            ->rows(3),
-                        Forms\Components\FileUpload::make('hero_image')
-                            ->image()
-                            ->directory('home-images')
-                            ->visibility('public'),
-                    ])->columns(2),
+                // Forms\Components\Section::make('Hero Section')
+                //     ->schema([
+                //         Forms\Components\TextInput::make('hero_title')
+                //             ->maxLength(255),
+                //         Forms\Components\TextInput::make('hero_subtitle')
+                //             ->maxLength(255),
+                //         Forms\Components\Textarea::make('hero_description')
+                //             ->rows(3),
+                //         Forms\Components\FileUpload::make('hero_image')
+                //             ->image()
+                //             ->directory('home-images')
+                //             ->visibility('public'),
+                //     ])->columns(2),
 
                 Forms\Components\Section::make('About Section')
                     ->schema([
@@ -53,17 +53,17 @@ class HomePageResource extends Resource
                             ->visibility('public'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('OGP Section')
-                    ->schema([
-                        Forms\Components\TextInput::make('ogp_title')
-                            ->maxLength(255),
-                        Forms\Components\Textarea::make('ogp_description')
-                            ->rows(4),
-                        Forms\Components\FileUpload::make('ogp_image')
-                            ->image()
-                            ->directory('home-images')
-                            ->visibility('public'),
-                    ])->columns(2),
+                // Forms\Components\Section::make('OGP Section')
+                //     ->schema([
+                //         Forms\Components\TextInput::make('ogp_title')
+                //             ->maxLength(255),
+                //         Forms\Components\Textarea::make('ogp_description')
+                //             ->rows(4),
+                //         Forms\Components\FileUpload::make('ogp_image')
+                //             ->image()
+                //             ->directory('home-images')
+                //             ->visibility('public'),
+                //     ])->columns(2),
 
                 Forms\Components\Section::make('Mission & Vision')
                     ->schema([
@@ -151,7 +151,7 @@ class HomePageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('hero_title')
+                Tables\Columns\TextColumn::make('about_title')
                     ->searchable()
                     ->limit(50),
                 Tables\Columns\TextColumn::make('about_title')

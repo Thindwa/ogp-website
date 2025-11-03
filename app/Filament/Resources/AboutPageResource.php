@@ -24,20 +24,20 @@ class AboutPageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Page Header')
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->maxLength(255)
-                            ->required(),
-                        Forms\Components\TextInput::make('subtitle')
-                            ->maxLength(255),
-                        Forms\Components\Textarea::make('description')
-                            ->rows(3),
-                        Forms\Components\FileUpload::make('featured_image')
-                            ->image()
-                            ->directory('about-images')
-                            ->visibility('public'),
-                    ])->columns(2),
+                // Forms\Components\Section::make('Page Header')
+                //     ->schema([
+                //         Forms\Components\TextInput::make('title')
+                //             ->maxLength(255)
+                //             ->required(),
+                //         Forms\Components\TextInput::make('subtitle')
+                //             ->maxLength(255),
+                //         Forms\Components\Textarea::make('description')
+                //             ->rows(3),
+                //         Forms\Components\FileUpload::make('featured_image')
+                //             ->image()
+                //             ->directory('about-images')
+                //             ->visibility('public'),
+                //     ])->columns(2),
 
                 Forms\Components\Section::make('OGP Global')
                     ->schema([
