@@ -2,112 +2,192 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TechnicalWorkingGroup;
+use App\Models\News;
+use App\Models\Achievement;
+use App\Models\Document;
+use App\Models\GalleryItem;
+use App\Models\HomePage;
+use App\Models\AboutPage;
+use App\Models\HomeSlider;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
     public function index()
     {
-        return view('frontend.index');
-    }
+        $homePage = HomePage::getActive();
+        $featuredNews = News::published()->with('technicalWorkingGroup')->latest('published_at')->take(3)->get();
+        $featuredAchievements = Achievement::featured()->with('technicalWorkingGroup')->take(4)->get();
+        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
+        $galleryItems = GalleryItem::active()->with('technicalWorkingGroup')->take(6)->get();
 
-    public function technicalGroup()
-    {
-        return view('frontend.technical');
-    }
-
-    public function showTechnical()
-    {
-        return view('frontend.single-technical');
-    }
-
-    public function Highlights()
-    {
-        return view('frontend.highlights');
-    }
-
-    public function show($slug)
-{
-    // Sample static data keyed by slug
-    $sampleAchievements = [
-        'transparency-laws' => [
-            'title' => 'Reform laws related to transparency and access to information',
-            'submitted_year' => '2020',
-            'policy_area' => 'Public Participation',
-            'description' => "This reform focuses on improving laws that govern public access to information.\n\nIt aims to enhance transparency and citizen trust in government processes.\n\nBy strengthening access to information frameworks, citizens can engage more meaningfully with public services and decision-making processes.\n\nThis reform also aligns with global best practices in open governance and supports democratic accountability.",
-        ],
-
-        'accountability-plan' => [
-            'title' => 'Transparency and Accountability Improvement and Reinforcement Plan',
-            'submitted_year' => '2020',
-            'policy_area' => 'Anti-Corruption and Integrity',
-            'description' => "The plan outlines strategies for strengthening government accountability and anti-corruption measures.\n\nIt emphasizes proactive disclosure of public data, institutional reforms, and compliance monitoring.\n\nCivil society was actively involved in shaping the commitments to ensure relevance and impact.\n\nThe plan represents a national-level push toward curbing misuse of public resources and improving trust in public institutions.",
-        ],
-
-        'citizen-participation' => [
-            'title' => 'Promote citizen participation in public affairs',
-            'submitted_year' => '2020',
-            'policy_area' => 'Public Participation',
-            'description' => "This initiative encourages inclusive civic engagement in policymaking and service delivery.\n\nIt introduces structured public consultations, participatory budgeting, and feedback mechanisms.\n\nThe goal is to strengthen the social contract between citizens and the state by enabling dialogue and collaboration.\n\nSpecial focus is placed on marginalized groups to ensure that every voice is heard and valued.",
-        ],
-
-        'whistleblower-protection' => [
-            'title' => 'Establish legal whistleblower protections',
-            'submitted_year' => '2020',
-            'policy_area' => 'Anti-Corruption and Integrity',
-            'description' => "The reform establishes a legal framework to protect whistleblowers who report misconduct or corruption.\n\nIt sets out procedures for safe reporting, confidentiality guarantees, and penalties against retaliation.\n\nThis helps create a culture of integrity within the public sector, encouraging people to speak up.\n\nRobust whistleblower laws are essential for detecting wrongdoing early and preserving public trust.",
-        ],
-
-        'digital-transparency' => [
-            'title' => 'Observatory of Open Government and Digital Transparency',
-            'submitted_year' => '2020',
-            'policy_area' => 'Digital Governance',
-            'description' => "This reform creates a national observatory to monitor open government and digital transparency efforts.\n\nIt provides a centralized platform for reporting, analysis, and public engagement with transparency data.\n\nIt also serves as a learning hub where institutions can share success stories and challenges.\n\nThe observatory enhances coordination across sectors and keeps the momentum of reforms going.",
-        ],
-    ];
-
-
-    // Check if the slug exists
-    if (!array_key_exists($slug, $sampleAchievements)) {
-        abort(404);
-    }
-
-    // Convert array to object for use in Blade
-    $achievement = (object) $sampleAchievements[$slug];
-
-    return view('frontend.single-highlight', compact('achievement'));
-}
-
-
-    public function news()
-    {
-        return view('frontend.news');
-    }
-
-    public function showNews($slug)
-    {
-        return view('frontend.single-news');
-    }
-
-    public function achievements()
-    {
-        return view('frontend.achievements');
+        return view('frontend.index', compact('homePage', 'featuredNews', 'featuredAchievements', 'technicalWorkingGroups', 'galleryItems'));
     }
 
     public function about()
     {
-        return view('frontend.about');
+        $aboutPage = AboutPage::getActive();
+        return view('frontend.about', compact('aboutPage'));
     }
 
-    public function Gallery()
+    public function technicalGroup()
     {
-        return view('frontend.gallery');
+        $technicalWorkingGroups = TechnicalWorkingGroup::active()->ordered()->get();
+        return view('frontend.technical', compact('technicalWorkingGroups'));
     }
 
-    public function downloads()
+    public function showTechnical($slug)
     {
-        return view('frontend.downloads');
+        $group = TechnicalWorkingGroup::where('slug', $slug)->firstOrFail();
+        $relatedGroups = TechnicalWorkingGroup::where('id', '!=', $group->id)->active()->take(4)->get();
+
+        return view('frontend.single-technical', compact('group', 'relatedGroups'));
     }
+
+
+    public function news()
+    {
+        $query = News::published()->with('technicalWorkingGroup');
+
+        // Apply filters
+        if (request('category')) {
+            $query->whereHas('technicalWorkingGroup', function($q) {
+                $q->where('name', 'like', '%' . request('category') . '%');
+            });
+        }
+
+        if (request('year')) {
+            $query->whereYear('published_at', request('year'));
+        }
+
+        if (request('status') === 'featured') {
+            $query->where('is_featured', true);
+        }
+
+        $news = $query->latest('published_at')->paginate(6);
+        $featuredNews = News::published()->featured()->take(3)->get();
+
+        return view('frontend.news', compact('news', 'featuredNews'));
+    }
+
+    public function showNews($slug)
+    {
+        $article = News::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
+        $relatedArticles = News::published()
+            ->where('id', '!=', $article->id)
+            ->where('technical_working_group_id', $article->technical_working_group_id)
+            ->take(3)->get();
+
+        return view('frontend.single-news', compact('article', 'relatedArticles'));
+    }
+
+    public function showAchievement($slug)
+    {
+        $achievement = Achievement::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
+        $relatedAchievements = Achievement::where('id', '!=', $achievement->id)
+            ->where('technical_working_group_id', $achievement->technical_working_group_id)
+            ->take(3)->get();
+
+        return view('frontend.single-achievement', compact('achievement', 'relatedAchievements'));
+    }
+
+    public function showDocument($slug)
+    {
+        $document = Document::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
+        $relatedDocuments = Document::where('id', '!=', $document->id)
+            ->where('technical_working_group_id', $document->technical_working_group_id)
+            ->where('is_public', true)
+            ->take(3)->get();
+
+        return view('frontend.single-document', compact('document', 'relatedDocuments'));
+    }
+
+    public function showGalleryItem($slug)
+    {
+        $galleryItem = GalleryItem::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
+        $relatedGalleryItems = GalleryItem::where('id', '!=', $galleryItem->id)
+            ->where('technical_working_group_id', $galleryItem->technical_working_group_id)
+            ->where('is_active', true)
+            ->take(3)->get();
+
+        return view('frontend.single-gallery', compact('galleryItem', 'relatedGalleryItems'));
+    }
+
+    public function achievements()
+    {
+        $query = Achievement::with('technicalWorkingGroup');
+
+        // Apply filters
+        if (request('year')) {
+            $query->where('submitted_year', request('year'));
+        }
+
+        if (request('policy_area')) {
+            $query->where('policy_area', request('policy_area'));
+        }
+
+        if (request('twg')) {
+            $query->where('technical_working_group_id', request('twg'));
+        }
+
+        $achievements = $query->orderBy('submitted_year', 'desc')->paginate(12);
+        $years = Achievement::distinct()->pluck('submitted_year')->filter()->sort()->values();
+        $policyAreas = Achievement::distinct()->pluck('policy_area')->filter()->sort()->values();
+        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
+
+        return view('frontend.achievements', compact('achievements', 'years', 'policyAreas', 'technicalWorkingGroups'));
+    }
+
+    public function documents()
+    {
+        $query = Document::with('technicalWorkingGroup')->where('is_public', true);
+
+        // Apply filters
+        if (request('category')) {
+            $query->where('category', request('category'));
+        }
+
+        if (request('type')) {
+            $query->where('file_type', request('type'));
+        }
+
+        if (request('twg')) {
+            $query->where('technical_working_group_id', request('twg'));
+        }
+
+        $documents = $query->orderBy('created_at', 'desc')->paginate(12);
+        $categories = Document::distinct()->pluck('category')->filter()->sort()->values();
+        $types = Document::distinct()->pluck('file_type')->filter()->sort()->values();
+        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
+
+        return view('frontend.documents', compact('documents', 'categories', 'types', 'technicalWorkingGroups'));
+    }
+
+    public function gallery()
+    {
+        $query = GalleryItem::with('technicalWorkingGroup')->where('is_active', true);
+
+        // Apply filters
+        if (request('category')) {
+            $query->where('category', request('category'));
+        }
+
+        if (request('year')) {
+            $query->whereYear('created_at', request('year'));
+        }
+
+        if (request('status') === 'featured') {
+            $query->where('is_featured', true);
+        }
+
+        $galleryItems = $query->orderBy('sort_order')->paginate(12);
+        $categories = GalleryItem::distinct()->pluck('category')->filter()->sort()->values();
+        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
+
+        return view('frontend.gallery', compact('galleryItems', 'categories', 'technicalWorkingGroups'));
+    }
+
     public function contact()
     {
         return view('frontend.contact');
