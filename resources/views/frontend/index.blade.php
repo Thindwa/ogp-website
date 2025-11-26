@@ -430,9 +430,7 @@
                     Join us in building a more transparent, accountable, and participatory government in Malawi.
                 </p>
                 <div class="d-flex gap-2 gap-md-3 justify-content-center flex-wrap">
-                    <a href="{{ route('technical.group') }}" class="btn btn-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                        <i class="fas fa-users me-2"></i>Join Working Group
-                    </a>
+
                     <a href="{{ route('documents') }}" class="btn btn-outline-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
                         <i class="fas fa-download me-2"></i>Download Resources
                     </a>
