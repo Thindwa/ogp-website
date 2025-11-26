@@ -42,9 +42,7 @@
                                                 <a href="{{ route('about') }}" class="btn btn-success btn-sm btn-lg-md px-3 px-md-4 py-1 py-md-2 rounded-pill">
                                                     <i class="fas fa-info-circle me-1 me-md-2"></i>Learn More
                                                 </a>
-                                                <a href="{{ route('gallery') }}" class="btn btn-outline-light btn-sm btn-lg-md px-3 px-md-4 py-1 py-md-2 rounded-pill">
-                                                    <i class="fas fa-images me-1 me-md-2"></i>View Gallery
-                                                </a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -424,11 +422,9 @@
     <div class="container">
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
-                <h2 class="h2 h1-md display-4-md fw-light mb-3 mb-md-4 text-white">Get Involved</h2>
+
                 <div class="border-bottom border-3 border-warning mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
-                <p class="lead mb-3 mb-md-4 lh-lg fs-6 fs-md-5 text-white">
-                    Join us in building a more transparent, accountable, and participatory government in Malawi.
-                </p>
+
                 <div class="d-flex gap-2 gap-md-3 justify-content-center flex-wrap">
 
                     <a href="{{ route('documents') }}" class="btn btn-outline-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
