@@ -1,0 +1,72 @@
+name: Auto Merge to Test Branch
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - test
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+    inputs:
+      branch:
+        description: 'Branch to merge into test'
+        required: true
+        default: 'main'
+
+jobs:
+  merge-to-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge branch into test
+        run: |
+          # Determine source branch based on event type
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            SOURCE_BRANCH="${{ github.event.inputs.branch }}"
+          else
+            SOURCE_BRANCH="${{ github.ref_name }}"
+          fi
+
+          echo "Merging branch: $SOURCE_BRANCH into test"
+
+          git fetch origin
+
+          # Checkout or create test branch
+          if git show-ref --verify --quiet refs/remotes/origin/test; then
+            git checkout -b test origin/test || git checkout test
+          else
+            echo "Test branch doesn't exist on remote, creating it from $SOURCE_BRANCH"
+            git checkout -b test origin/$SOURCE_BRANCH
+          fi
+
+          # Store current commit before merge
+          CURRENT_COMMIT=$(git rev-parse HEAD)
+
+          # Merge source branch into test
+          if git merge origin/$SOURCE_BRANCH --no-edit --no-ff; then
+            # Check if merge created a new commit (HEAD moved)
+            NEW_COMMIT=$(git rev-parse HEAD)
+            if [ "$CURRENT_COMMIT" != "$NEW_COMMIT" ]; then
+              git push origin test
+              echo "Successfully merged $SOURCE_BRANCH into test branch and pushed"
+            else
+              echo "Test branch is already up to date with $SOURCE_BRANCH, no push needed"
+            fi
+          else
+            echo "Merge conflict detected. Please resolve manually."
+            git merge --abort
+            exit 1
+          fi
+
