@@ -55,24 +55,24 @@
 
     <!-- Who is in OGP Section -->
     @php
-        $whoIsOgp = $aboutPage;
-        $howOgpWorks = $aboutPage;
-        $malawiOgp = $aboutPage;
+        $whoIsOgp = $homePage ?? $aboutPage;
+        $howOgpWorks = $homePage ?? $aboutPage;
+        $malawiOgp = $homePage ?? $aboutPage;
     @endphp
 
-    @if($aboutPage->who_is_ogp_title || $aboutPage->how_ogp_works_title || $aboutPage->malawi_ogp_title)
+    @if(($homePage->who_is_ogp_title ?? $aboutPage->who_is_ogp_title) || ($homePage->who_is_ogp_content ?? $aboutPage->who_is_ogp_content) || ($homePage->how_ogp_works_title ?? $aboutPage->how_ogp_works_title) || ($homePage->how_ogp_works_content ?? $aboutPage->how_ogp_works_content) || ($homePage->malawi_ogp_title ?? $aboutPage->malawi_ogp_title) || ($homePage->malawi_ogp_content ?? $aboutPage->malawi_ogp_content) || ($homePage->malawi_ogp_description ?? $aboutPage->malawi_ogp_description ?? $aboutPage->description))
     <section class="py-5 bg-white">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 mx-auto">
-                    @if($aboutPage->who_is_ogp_title)
+                    @if($homePage->who_is_ogp_title ?? $aboutPage->who_is_ogp_title)
                     <div class="text-center mb-5">
-                        <h2 class="display-4 fw-light text-dark mb-0">{{ $aboutPage->who_is_ogp_title }}</h2>
+                        <h2 class="display-4 fw-light text-dark mb-0">{{ $homePage->who_is_ogp_title ?? $aboutPage->who_is_ogp_title }}</h2>
                     </div>
                     @endif
 
                     <div class="row g-4">
-                        @if($aboutPage->who_is_ogp_content)
+                        @if($homePage->who_is_ogp_content ?? $aboutPage->who_is_ogp_content)
                         <div class="col-12">
                             <div class="bg-dark bg-opacity-75 p-3 p-md-5 rounded-4 shadow-sm border-start border-5 border-warning">
                                 <div class="row align-items-center">
@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="col-12 col-lg-11">
                                         <p class="lead text-white mb-0 lh-lg fs-6 fs-md-5 text-center text-lg-start">
-                                            {!! $aboutPage->who_is_ogp_content !!}
+                                            {!! $homePage->who_is_ogp_content ?? $aboutPage->who_is_ogp_content !!}
                                         </p>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                         </div>
                         @endif
 
-                        @if($aboutPage->how_ogp_works_content)
+                        @if(($homePage->how_ogp_works_title ?? $aboutPage->how_ogp_works_title) || ($homePage->how_ogp_works_content ?? $aboutPage->how_ogp_works_content))
                         <div class="col-12 col-md-6">
                             <div class="bg-white p-3 p-md-5 h-100 shadow-sm rounded-4 border border-light">
                                 <div class="d-flex flex-column flex-md-row align-items-start mb-4">
@@ -103,17 +103,21 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-center text-md-start">
-                                        <h4 class="h5 h4-md fw-bold text-dark mb-3">{{ $aboutPage->how_ogp_works_title }}</h4>
+                                        @if($homePage->how_ogp_works_title ?? $aboutPage->how_ogp_works_title)
+                                        <h4 class="h5 h4-md fw-bold text-dark mb-3">{{ $homePage->how_ogp_works_title ?? $aboutPage->how_ogp_works_title }}</h4>
+                                        @endif
+                                        @if($homePage->how_ogp_works_content ?? $aboutPage->how_ogp_works_content)
                                         <p class="text-muted lh-lg mb-0 small">
-                                            {{ $aboutPage->how_ogp_works_content }}
+                                            {{ $homePage->how_ogp_works_content ?? $aboutPage->how_ogp_works_content }}
                                         </p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endif
 
-                        @if($aboutPage->malawi_ogp_content)
+                        @if(($homePage->malawi_ogp_title ?? $aboutPage->malawi_ogp_title) || ($homePage->malawi_ogp_content ?? $aboutPage->malawi_ogp_content))
                         <div class="col-12 col-md-6">
                             <div class="bg-white p-3 p-md-5 h-100 shadow-sm rounded-4 border border-light">
                                 <div class="d-flex flex-column flex-md-row align-items-start mb-4">
@@ -123,31 +127,21 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 text-center text-md-start">
-                                        <h4 class="h5 h4-md fw-bold text-dark mb-3">{{ $aboutPage->malawi_ogp_title }}</h4>
+                                        @if($homePage->malawi_ogp_title ?? $aboutPage->malawi_ogp_title)
+                                        <h4 class="h5 h4-md fw-bold text-dark mb-3">{{ $homePage->malawi_ogp_title ?? $aboutPage->malawi_ogp_title }}</h4>
+                                        @endif
+                                        @if($homePage->malawi_ogp_content ?? $aboutPage->malawi_ogp_content)
                                         <p class="text-muted lh-lg mb-0 small">
-                                            {!! $aboutPage->malawi_ogp_content !!}
+                                            {!! $homePage->malawi_ogp_content ?? $aboutPage->malawi_ogp_content !!}
                                         </p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endif
 
-                        @if($malawiOgp && $malawiOgp->description)
-                        <div class="col-12">
-                            <div class="bg-dark text-white p-3 p-md-5 text-center rounded-4">
-                                <div class="mb-3 mb-md-4">
-                                    <i class="fas fa-quote-left fa-2x fa-3x-md opacity-25"></i>
-                                </div>
-                                <p class="lead mb-0 lh-lg fs-5 fs-md-4 fw-light">
-                                    {!! $malawiOgp->description !!}
-                                </p>
-                                <div class="mt-3 mt-md-4">
-                                    <i class="fas fa-quote-right fa-2x fa-3x-md opacity-25"></i>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
+
                     </div>
                 </div>
             </div>

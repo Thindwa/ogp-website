@@ -70,14 +70,16 @@ class AboutPageResource extends Resource
                             ->visibility('public'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Who is in OGP Section')
+                Forms\Components\Section::make('Who is in OGP?')
                     ->schema([
                         Forms\Components\TextInput::make('who_is_ogp_title')
                             ->maxLength(255)
-                            ->label('Section Title'),
-                        Forms\Components\RichEditor::make('who_is_ogp_content')
-                            ->label('Main Content')
-                            ->helperText('This content appears in the dark card with the flag icon')
+                            ->label('Title')
+                            ->helperText('Main section title (e.g., "Who is in OGP?")'),
+                        Forms\Components\Textarea::make('who_is_ogp_content')
+                            ->rows(6)
+                            ->label('Content')
+                            ->helperText('This content appears in the dark card with the globe icon. Supports HTML formatting.')
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('who_is_ogp_description')
                             ->rows(3)
@@ -85,31 +87,38 @@ class AboutPageResource extends Resource
                             ->helperText('Optional additional description'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('How OGP Works')
+                Forms\Components\Section::make('How Does OGP Work?')
                     ->schema([
                         Forms\Components\TextInput::make('how_ogp_works_title')
                             ->maxLength(255)
-                            ->label('Title'),
+                            ->label('Title')
+                            ->helperText('Title for the "How Does OGP Work?" card'),
                         Forms\Components\Textarea::make('how_ogp_works_content')
-                            ->rows(4)
-                            ->label('Content'),
+                            ->rows(6)
+                            ->label('Content')
+                            ->helperText('Content that appears in the white card with the cogs icon')
+                            ->columnSpanFull(),
                         Forms\Components\Textarea::make('how_ogp_works_description')
                             ->rows(3)
                             ->label('Description')
                             ->helperText('Optional additional description'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Malawi OGP')
+                Forms\Components\Section::make('When Did Malawi Join OGP?')
                     ->schema([
                         Forms\Components\TextInput::make('malawi_ogp_title')
                             ->maxLength(255)
-                            ->label('Title'),
-                        Forms\Components\RichEditor::make('malawi_ogp_content')
-                            ->label('Content'),
+                            ->label('Title')
+                            ->helperText('Title for the "When Did Malawi Join OGP?" card'),
+                        Forms\Components\Textarea::make('malawi_ogp_content')
+                            ->rows(6)
+                            ->label('Content')
+                            ->helperText('Content that appears in the white card with the flag icon. Supports HTML formatting.')
+                            ->columnSpanFull(),
                         Forms\Components\Textarea::make('malawi_ogp_description')
                             ->rows(3)
                             ->label('Description')
-                            ->helperText('This description appears in the quote section at the bottom if provided'),
+                            ->helperText('Optional description that can appear in a quote section'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('National Steering Committee')

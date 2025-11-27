@@ -28,7 +28,8 @@ class FrontendController extends Controller
     public function about()
     {
         $aboutPage = AboutPage::getActive();
-        return view('frontend.about', compact('aboutPage'));
+        $homePage = HomePage::getActive(); // Get HomePage data for the "Who is in OGP" section
+        return view('frontend.about', compact('aboutPage', 'homePage'));
     }
 
     public function technicalGroup()
