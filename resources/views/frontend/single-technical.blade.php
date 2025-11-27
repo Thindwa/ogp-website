@@ -88,25 +88,6 @@
                 </div>
                 @endif
 
-                <!-- Group Challenges -->
-                @if($group->challenges && is_array($group->challenges) && count($group->challenges) > 0)
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="card-header bg-secondary text-white">
-                        <h5 class="mb-0 fw-bold">Key Challenges</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <ul class="list-unstyled mb-0">
-                            @foreach($group->challenges as $challenge)
-                            <li class="mb-2">
-                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
-                                {{ is_array($challenge) ? $challenge['challenge'] : $challenge }}
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                @endif
-
                 <!-- Commitments (formerly Interventions) -->
                 @if($group->commitments && is_array($group->commitments) && count($group->commitments) > 0)
                 <div class="card mb-4 border-0 shadow-sm">

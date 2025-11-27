@@ -76,7 +76,7 @@ class TechnicalWorkingGroupResource extends Resource
                     ])->columns(1),
 
                 Forms\Components\Section::make('Content')
-                    ->description('Order: Issues, Objectives, Key Challenges, Commitments')
+                    ->description('Order: Issues, Objectives, Commitments')
                     ->schema([
                         Forms\Components\Repeater::make('issues')
                             ->schema([
@@ -95,15 +95,6 @@ class TechnicalWorkingGroupResource extends Resource
                             ])
                             ->defaultItems(1)
                             ->collapsible(),
-                        Forms\Components\Repeater::make('challenges')
-                            ->schema([
-                                Forms\Components\TextInput::make('challenge')
-                                    ->required()
-                                    ->maxLength(255),
-                            ])
-                            ->defaultItems(1)
-                            ->collapsible()
-                            ->label('Key Challenges'),
                         Forms\Components\Repeater::make('commitments')
                             ->schema([
                                 Forms\Components\TextInput::make('commitment')
