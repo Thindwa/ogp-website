@@ -26,6 +26,11 @@ class CreateEvent extends CreateRecord
             }
             // Also set is_published to false
             $data['is_published'] = false;
+        } else {
+            // For admins: Auto-set published_at if status is published and published_at is not set
+            if (isset($data['status']) && $data['status'] === 'published' && empty($data['published_at'])) {
+                $data['published_at'] = now();
+            }
         }
 
         return $data;
