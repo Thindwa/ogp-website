@@ -56,6 +56,22 @@ class DocumentResource extends Resource
                                 'Annual Reports' => 'Annual Reports',
                                 'Policy Documents' => 'Policy Documents',
                                 'Meeting Minutes' => 'Meeting Minutes',
+                                'Progress Reports' => 'Progress Reports',
+                                'National Action Plans' => 'National Action Plans',
+                                'Stakeholder Guides' => 'Stakeholder Guides',
+                                'Guidelines' => 'Guidelines',
+                                'Best Practices' => 'Best Practices',
+                                'Events' => 'Events',
+                                'Meetings' => 'Meetings',
+                                'Workshops' => 'Workshops',
+                                'Conferences' => 'Conferences',
+                                'Reports' => 'Reports',
+                                'Documents' => 'Documents',
+                                'Resources' => 'Resources',
+                                'Events' => 'Events',
+                                'Achievements' => 'Achievements',
+                                'Gallery' => 'Gallery',
+                                'Videos' => 'Videos',
                                 'Other' => 'Other',
                             ])
                             ->searchable(),
@@ -73,8 +89,36 @@ class DocumentResource extends Resource
 
                 Forms\Components\Section::make('Settings')
                     ->schema([
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'draft' => 'Draft',
+                                'pending' => 'Pending Review',
+                                'published' => 'Published',
+                            ])
+                            ->default(function () {
+                                $user = auth()->user();
+                                // TWG managers can only set to draft or pending
+                                if ($user->isTWGManager()) {
+                                    return 'pending';
+                                }
+                                return 'draft';
+                            })
+                            ->required()
+                            ->disabled(function () {
+                                $user = auth()->user();
+                                // Only admins can publish
+                                return $user->isTWGManager();
+                            })
+                            ->helperText(function () {
+                                $user = auth()->user();
+                                if ($user->isTWGManager()) {
+                                    return 'Your document will be submitted for admin review. Only admins can publish.';
+                                }
+                                return 'Set the publication status of this document.';
+                            }),
                         Forms\Components\Toggle::make('is_public')
-                            ->default(true),
+                            ->default(true)
+                            ->helperText('Note: Document will only be visible on frontend when status is "Published".'),
                     ]),
             ]);
     }
@@ -113,8 +157,17 @@ class DocumentResource extends Resource
                 Tables\Columns\TextColumn::make('download_count')
                     ->label('Downloads')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'published' => 'success',
+                        'pending' => 'warning',
+                        'draft' => 'gray',
+                        default => 'gray',
+                    }),
                 Tables\Columns\IconColumn::make('is_public')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -129,8 +182,15 @@ class DocumentResource extends Resource
                         'Meeting Minutes' => 'Meeting Minutes',
                         'Other' => 'Other',
                     ]),
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'pending' => 'Pending Review',
+                        'published' => 'Published',
+                    ]),
                 Tables\Filters\TernaryFilter::make('is_public')
-                    ->label('Public Status'),
+                    ->label('Public Status')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Filters\SelectFilter::make('technical_working_group_id')
                     ->relationship('technicalWorkingGroup', 'name')
                     ->searchable()

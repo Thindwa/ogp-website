@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\News;
+use App\Models\Event;
 use App\Models\TechnicalWorkingGroup;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class NewsSeeder extends Seeder
+class EventSeeder extends Seeder
 {
     public function run(): void
     {
@@ -18,7 +18,7 @@ class NewsSeeder extends Seeder
             return;
         }
 
-        $newsData = [
+        $eventsData = [
             [
                 'title' => 'Malawi Launches New Open Data Portal',
                 'slug' => 'malawi-launches-new-open-data-portal',
@@ -101,10 +101,10 @@ class NewsSeeder extends Seeder
             ],
         ];
 
-        foreach ($newsData as $news) {
-            News::create($news);
+        foreach ($eventsData as $event) {
+            Event::create($event);
         }
 
-        $this->command->info('News seeded successfully!');
+        $this->command->info('Events seeded successfully!');
     }
 }

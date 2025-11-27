@@ -16,4 +16,17 @@ class EditGalleryItem extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $user = auth()->user();
+
+        // TWG managers cannot publish - force to pending if they try
+        if ($user->isTWGManager() && isset($data['status']) && $data['status'] === 'published') {
+            $data['status'] = 'pending';
+            $data['is_active'] = false;
+        }
+
+        return $data;
+    }
 }

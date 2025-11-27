@@ -19,6 +19,13 @@ class CreateAchievement extends CreateRecord
             $data['technical_working_group_id'] = $user->technical_working_group_id;
         }
 
+        // TWG managers can only create as draft or pending, never published
+        if ($user->isTWGManager()) {
+            if (!isset($data['status']) || $data['status'] === 'published') {
+                $data['status'] = 'pending';
+            }
+        }
+
         return $data;
     }
 }

@@ -185,4 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+@include('layouts.partials.call-to-action')
 @endsection

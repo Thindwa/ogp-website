@@ -111,22 +111,6 @@
     </div>
 </section>
 
-<!-- Join a Group Section -->
-<section class="section">
-    <div class="container">
-        <div class="card" style="background: linear-gradient(135deg, var(--accent-600) 0%, var(--accent-500) 100%); color: white;">
-            <div class="card-body text-center py-16">
-                <h2 class="text-3xl font-bold mb-4">Join a Working Group</h2>
-                <p class="text-lg mb-8 max-w-2xl mx-auto">
-                    Be part of the change. Join a working group and contribute to building a more open and transparent government in Malawi.
-                </p>
-                <div class="flex gap-4 justify-center">
-                    <a href="#" class="btn btn-secondary btn-lg">View Available Positions</a>
-                    <a href="#" class="btn btn-outline btn-lg" style="color: white; border-color: white;">Contact Us</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 @endsection

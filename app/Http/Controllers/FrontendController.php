@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TechnicalWorkingGroup;
-use App\Models\News;
+use App\Models\Event;
 use App\Models\Achievement;
 use App\Models\Document;
 use App\Models\GalleryItem;
@@ -17,12 +17,12 @@ class FrontendController extends Controller
     public function index()
     {
         $homePage = HomePage::getActive();
-        $featuredNews = News::published()->with('technicalWorkingGroup')->latest('published_at')->take(3)->get();
-        $featuredAchievements = Achievement::featured()->with('technicalWorkingGroup')->take(4)->get();
-        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
-        $galleryItems = GalleryItem::active()->with('technicalWorkingGroup')->take(6)->get();
+        $featuredEvents = Event::published()->current()->with('technicalWorkingGroup')->latest('published_at')->take(3)->get();
+        $featuredAchievements = Achievement::featured()->current()->with('technicalWorkingGroup')->take(4)->get();
+        $technicalWorkingGroups = TechnicalWorkingGroup::current()->get();
+        $galleryItems = GalleryItem::active()->current()->with('technicalWorkingGroup')->take(6)->get();
 
-        return view('frontend.index', compact('homePage', 'featuredNews', 'featuredAchievements', 'technicalWorkingGroups', 'galleryItems'));
+        return view('frontend.index', compact('homePage', 'featuredEvents', 'featuredAchievements', 'technicalWorkingGroups', 'galleryItems'));
     }
 
     public function about()
@@ -33,22 +33,51 @@ class FrontendController extends Controller
 
     public function technicalGroup()
     {
-        $technicalWorkingGroups = TechnicalWorkingGroup::active()->ordered()->get();
-        return view('frontend.technical', compact('technicalWorkingGroups'));
+        $currentTWGs = TechnicalWorkingGroup::current()->ordered()->get();
+        $archivedTWGs = TechnicalWorkingGroup::archived()->orderBy('end_date', 'desc')->get();
+        return view('frontend.technical', compact('currentTWGs', 'archivedTWGs'));
     }
 
     public function showTechnical($slug)
     {
         $group = TechnicalWorkingGroup::where('slug', $slug)->firstOrFail();
-        $relatedGroups = TechnicalWorkingGroup::where('id', '!=', $group->id)->active()->take(4)->get();
 
-        return view('frontend.single-technical', compact('group', 'relatedGroups'));
+        // Show related groups from the same period (current or archived)
+        // Only show active groups in related groups
+        if ($group->is_archived) {
+            $relatedGroups = TechnicalWorkingGroup::archived()
+                ->where('id', '!=', $group->id)
+                ->where('is_active', true)
+                ->orderBy('end_date', 'desc')
+                ->take(4)
+                ->get();
+        } else {
+            $relatedGroups = TechnicalWorkingGroup::current()
+                ->where('id', '!=', $group->id)
+                ->take(4)
+                ->get();
+        }
+
+        // Get related content from this TWG
+        $relatedEvents = $group->events()->published()->latest('published_at')->take(3)->get();
+        $relatedDocuments = $group->documents()->published()->latest()->take(3)->get();
+        $relatedAchievements = $group->achievements()->published()->latest()->take(3)->get();
+        $relatedGalleryItems = $group->galleryItems()->published()->take(3)->get();
+
+        return view('frontend.single-technical', compact('group', 'relatedGroups', 'relatedEvents', 'relatedDocuments', 'relatedAchievements', 'relatedGalleryItems'));
     }
 
 
-    public function news()
+    public function events()
     {
-        $query = News::published()->with('technicalWorkingGroup');
+        // Check if showing archived events
+        $showArchived = request('archive') == '1';
+
+        if ($showArchived) {
+            $query = Event::published()->archived()->with('technicalWorkingGroup');
+        } else {
+            $query = Event::published()->current()->with('technicalWorkingGroup');
+        }
 
         // Apply filters
         if (request('category')) {
@@ -65,21 +94,28 @@ class FrontendController extends Controller
             $query->where('is_featured', true);
         }
 
-        $news = $query->latest('published_at')->paginate(6);
-        $featuredNews = News::published()->featured()->take(3)->get();
+        $events = $query->latest('published_at')->paginate(6);
 
-        return view('frontend.news', compact('news', 'featuredNews'));
+        if ($showArchived) {
+            $featuredEvents = Event::published()->archived()->featured()->take(3)->get();
+            $archivedTWGs = TechnicalWorkingGroup::archived()->orderBy('end_date', 'desc')->get();
+        } else {
+            $featuredEvents = Event::published()->current()->featured()->take(3)->get();
+            $archivedTWGs = collect();
+        }
+
+        return view('frontend.events', compact('events', 'featuredEvents', 'archivedTWGs', 'showArchived'));
     }
 
-    public function showNews($slug)
+    public function showEvent($slug)
     {
-        $article = News::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
-        $relatedArticles = News::published()
-            ->where('id', '!=', $article->id)
-            ->where('technical_working_group_id', $article->technical_working_group_id)
+        $event = Event::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
+        $relatedEvents = Event::published()
+            ->where('id', '!=', $event->id)
+            ->where('technical_working_group_id', $event->technical_working_group_id)
             ->take(3)->get();
 
-        return view('frontend.single-news', compact('article', 'relatedArticles'));
+        return view('frontend.single-event', compact('event', 'relatedEvents'));
     }
 
     public function showAchievement($slug)
@@ -97,7 +133,7 @@ class FrontendController extends Controller
         $document = Document::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
         $relatedDocuments = Document::where('id', '!=', $document->id)
             ->where('technical_working_group_id', $document->technical_working_group_id)
-            ->where('is_public', true)
+            ->published()
             ->take(3)->get();
 
         return view('frontend.single-document', compact('document', 'relatedDocuments'));
@@ -108,7 +144,7 @@ class FrontendController extends Controller
         $galleryItem = GalleryItem::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
         $relatedGalleryItems = GalleryItem::where('id', '!=', $galleryItem->id)
             ->where('technical_working_group_id', $galleryItem->technical_working_group_id)
-            ->where('is_active', true)
+            ->published()
             ->take(3)->get();
 
         return view('frontend.single-gallery', compact('galleryItem', 'relatedGalleryItems'));
@@ -116,7 +152,14 @@ class FrontendController extends Controller
 
     public function achievements()
     {
-        $query = Achievement::with('technicalWorkingGroup');
+        // Check if showing archived achievements
+        $showArchived = request('archive') == '1';
+
+        if ($showArchived) {
+            $query = Achievement::published()->archived()->with('technicalWorkingGroup');
+        } else {
+            $query = Achievement::published()->current()->with('technicalWorkingGroup');
+        }
 
         // Apply filters
         if (request('year')) {
@@ -132,16 +175,32 @@ class FrontendController extends Controller
         }
 
         $achievements = $query->orderBy('submitted_year', 'desc')->paginate(12);
-        $years = Achievement::distinct()->pluck('submitted_year')->filter()->sort()->values();
-        $policyAreas = Achievement::distinct()->pluck('policy_area')->filter()->sort()->values();
-        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
 
-        return view('frontend.achievements', compact('achievements', 'years', 'policyAreas', 'technicalWorkingGroups'));
+        if ($showArchived) {
+            $years = Achievement::archived()->distinct()->pluck('submitted_year')->filter()->sort()->values();
+            $policyAreas = Achievement::archived()->distinct()->pluck('policy_area')->filter()->sort()->values();
+            $technicalWorkingGroups = TechnicalWorkingGroup::archived()->get();
+            $archivedTWGs = TechnicalWorkingGroup::archived()->orderBy('end_date', 'desc')->get();
+        } else {
+            $years = Achievement::current()->distinct()->pluck('submitted_year')->filter()->sort()->values();
+            $policyAreas = Achievement::current()->distinct()->pluck('policy_area')->filter()->sort()->values();
+            $technicalWorkingGroups = TechnicalWorkingGroup::current()->get();
+            $archivedTWGs = collect();
+        }
+
+        return view('frontend.achievements', compact('achievements', 'years', 'policyAreas', 'technicalWorkingGroups', 'archivedTWGs', 'showArchived'));
     }
 
     public function documents()
     {
-        $query = Document::with('technicalWorkingGroup')->where('is_public', true);
+        // Check if showing archived documents
+        $showArchived = request('archive') == '1';
+
+        if ($showArchived) {
+            $query = Document::published()->archived()->with('technicalWorkingGroup');
+        } else {
+            $query = Document::published()->current()->with('technicalWorkingGroup');
+        }
 
         // Apply filters
         if (request('category')) {
@@ -157,16 +216,32 @@ class FrontendController extends Controller
         }
 
         $documents = $query->orderBy('created_at', 'desc')->paginate(12);
-        $categories = Document::distinct()->pluck('category')->filter()->sort()->values();
-        $types = Document::distinct()->pluck('file_type')->filter()->sort()->values();
-        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
 
-        return view('frontend.documents', compact('documents', 'categories', 'types', 'technicalWorkingGroups'));
+        if ($showArchived) {
+            $categories = Document::archived()->distinct()->pluck('category')->filter()->sort()->values();
+            $types = Document::archived()->distinct()->pluck('file_type')->filter()->sort()->values();
+            $technicalWorkingGroups = TechnicalWorkingGroup::archived()->get();
+            $archivedTWGs = TechnicalWorkingGroup::archived()->orderBy('end_date', 'desc')->get();
+        } else {
+            $categories = Document::current()->distinct()->pluck('category')->filter()->sort()->values();
+            $types = Document::current()->distinct()->pluck('file_type')->filter()->sort()->values();
+            $technicalWorkingGroups = TechnicalWorkingGroup::current()->get();
+            $archivedTWGs = collect();
+        }
+
+        return view('frontend.documents', compact('documents', 'categories', 'types', 'technicalWorkingGroups', 'archivedTWGs', 'showArchived'));
     }
 
     public function gallery()
     {
-        $query = GalleryItem::with('technicalWorkingGroup')->where('is_active', true);
+        // Check if showing archived gallery items
+        $showArchived = request('archive') == '1';
+
+        if ($showArchived) {
+            $query = GalleryItem::published()->archived()->with('technicalWorkingGroup');
+        } else {
+            $query = GalleryItem::published()->current()->with('technicalWorkingGroup');
+        }
 
         // Apply filters
         if (request('category')) {
@@ -182,10 +257,18 @@ class FrontendController extends Controller
         }
 
         $galleryItems = $query->orderBy('sort_order')->paginate(12);
-        $categories = GalleryItem::distinct()->pluck('category')->filter()->sort()->values();
-        $technicalWorkingGroups = TechnicalWorkingGroup::active()->get();
 
-        return view('frontend.gallery', compact('galleryItems', 'categories', 'technicalWorkingGroups'));
+        if ($showArchived) {
+            $categories = GalleryItem::archived()->distinct()->pluck('category')->filter()->sort()->values();
+            $technicalWorkingGroups = TechnicalWorkingGroup::archived()->get();
+            $archivedTWGs = TechnicalWorkingGroup::archived()->orderBy('end_date', 'desc')->get();
+        } else {
+            $categories = GalleryItem::current()->distinct()->pluck('category')->filter()->sort()->values();
+            $technicalWorkingGroups = TechnicalWorkingGroup::current()->get();
+            $archivedTWGs = collect();
+        }
+
+        return view('frontend.gallery', compact('galleryItems', 'categories', 'technicalWorkingGroups', 'archivedTWGs', 'showArchived'));
     }
 
     public function contact()

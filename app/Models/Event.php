@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-class News extends Model
+class Event extends Model
 {
+    protected $table = 'events';
+
     protected $fillable = [
         'title',
         'slug',
@@ -20,7 +22,8 @@ class News extends Model
         'technical_working_group_id',
         'author',
         'meta_description',
-        'tags'
+        'tags',
+        'status'
     ];
 
     protected $casts = [
@@ -53,12 +56,26 @@ class News extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('is_published', true)
+        return $query->where('status', 'published')
                     ->where('published_at', '<=', now());
     }
 
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
+    }
+
+    public function scopeCurrent($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->current();
+        });
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->archived();
+        });
     }
 }

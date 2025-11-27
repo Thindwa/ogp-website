@@ -10,6 +10,7 @@ class AboutPage extends Model
         'title',
         'subtitle',
         'description',
+        'content',
         'mission',
         'vision',
         'values',

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\NewsResource\Pages;
-use App\Filament\Resources\NewsResource\RelationManagers;
-use App\Models\News;
+use App\Filament\Resources\EventResource\Pages;
+use App\Filament\Resources\EventResource\RelationManagers;
+use App\Models\Event;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,14 +13,14 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class NewsResource extends Resource
+class EventResource extends Resource
 {
-    protected static ?string $model = News::class;
+    protected static ?string $model = Event::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
-    protected static ?string $navigationLabel = 'News';
-    protected static ?string $modelLabel = 'News Article';
-    protected static ?string $pluralModelLabel = 'News Articles';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
+    protected static ?string $navigationLabel = 'Events';
+    protected static ?string $modelLabel = 'Event';
+    protected static ?string $pluralModelLabel = 'Events';
     protected static ?string $navigationGroup = 'My TWG Content';
 
     public static function form(Form $form): Form
@@ -39,7 +39,7 @@ class NewsResource extends Resource
                         Forms\Components\TextInput::make('slug')
                             ->required()
                             ->maxLength(255)
-                            ->unique(News::class, 'slug', ignoreRecord: true),
+                            ->unique(Event::class, 'slug', ignoreRecord: true),
                         Forms\Components\Select::make('technical_working_group_id')
                             ->relationship('technicalWorkingGroup', 'name')
                             ->required()
@@ -64,7 +64,7 @@ class NewsResource extends Resource
                     ->schema([
                         Forms\Components\FileUpload::make('featured_image')
                             ->image()
-                            ->directory('news-images')
+                            ->directory('event-images')
                             ->visibility('public'),
                         Forms\Components\RichEditor::make('content')
                             ->required()
@@ -75,8 +75,33 @@ class NewsResource extends Resource
                     ->schema([
                         Forms\Components\DatePicker::make('published_at')
                             ->label('Publish Date'),
-                        Forms\Components\Toggle::make('is_published')
-                            ->default(false),
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'draft' => 'Draft',
+                                'pending' => 'Pending Review',
+                                'published' => 'Published',
+                            ])
+                            ->default(function () {
+                                $user = auth()->user();
+                                // TWG managers can only set to draft or pending
+                                if ($user->isTWGManager()) {
+                                    return 'pending';
+                                }
+                                return 'draft';
+                            })
+                            ->required()
+                            ->disabled(function () {
+                                $user = auth()->user();
+                                // Only admins can publish
+                                return $user->isTWGManager();
+                            })
+                            ->helperText(function () {
+                                $user = auth()->user();
+                                if ($user->isTWGManager()) {
+                                    return 'Your content will be submitted for admin review. Only admins can publish.';
+                                }
+                                return 'Set the publication status of this article.';
+                            }),
                         Forms\Components\Toggle::make('is_featured')
                             ->default(false),
                     ])->columns(3),
@@ -89,7 +114,7 @@ class NewsResource extends Resource
             ->modifyQueryUsing(function (Builder $query) {
                 $user = auth()->user();
 
-                // TWG managers can only see their TWG's news
+                // TWG managers can only see their TWG's events
                 if ($user->isTWGManager()) {
                     $query->where('technical_working_group_id', $user->technical_working_group_id);
                 }
@@ -108,8 +133,14 @@ class NewsResource extends Resource
                 Tables\Columns\TextColumn::make('author')
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\IconColumn::make('is_published')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'published' => 'success',
+                        'pending' => 'warning',
+                        'draft' => 'gray',
+                        default => 'gray',
+                    }),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
@@ -122,8 +153,12 @@ class NewsResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_published')
-                    ->label('Published Status'),
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'pending' => 'Pending Review',
+                        'published' => 'Published',
+                    ]),
                 Tables\Filters\TernaryFilter::make('is_featured')
                     ->label('Featured Status'),
                 Tables\Filters\SelectFilter::make('technical_working_group_id')
@@ -153,9 +188,9 @@ class NewsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNews::route('/'),
-            'create' => Pages\CreateNews::route('/create'),
-            'edit' => Pages\EditNews::route('/{record}/edit'),
+            'index' => Pages\ListEvents::route('/'),
+            'create' => Pages\CreateEvent::route('/create'),
+            'edit' => Pages\EditEvent::route('/{record}/edit'),
         ];
     }
 }

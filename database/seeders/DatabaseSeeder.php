@@ -20,11 +20,12 @@ class DatabaseSeeder extends Seeder
             HomePageSeeder::class,
             AboutPageSeeder::class,
             HomeSliderSeeder::class,
-            NewsSeeder::class,
+            EventSeeder::class,
             AchievementSeeder::class,
             DocumentSeeder::class,
             GalleryItemSeeder::class,
             PageSectionSeeder::class,
+            FooterSettingsSeeder::class,
         ]);
     }
 }

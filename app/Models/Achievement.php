@@ -29,6 +29,8 @@ class Achievement extends Model
         'is_featured' => 'boolean',
     ];
 
+    // Note: status is already in fillable, but ensure it defaults to draft for TWG users
+
     protected static function boot()
     {
         parent::boot();
@@ -53,5 +55,24 @@ class Achievement extends Model
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function scopeCurrent($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->current();
+        });
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->archived();
+        });
     }
 }

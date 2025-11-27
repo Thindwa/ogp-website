@@ -83,8 +83,36 @@ class GalleryItemResource extends Resource
                         Forms\Components\TextInput::make('sort_order')
                             ->numeric()
                             ->default(0),
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'draft' => 'Draft',
+                                'pending' => 'Pending Review',
+                                'published' => 'Published',
+                            ])
+                            ->default(function () {
+                                $user = auth()->user();
+                                // TWG managers can only set to draft or pending
+                                if ($user->isTWGManager()) {
+                                    return 'pending';
+                                }
+                                return 'draft';
+                            })
+                            ->required()
+                            ->disabled(function () {
+                                $user = auth()->user();
+                                // Only admins can publish
+                                return $user->isTWGManager();
+                            })
+                            ->helperText(function () {
+                                $user = auth()->user();
+                                if ($user->isTWGManager()) {
+                                    return 'Your gallery item will be submitted for admin review. Only admins can publish.';
+                                }
+                                return 'Set the publication status of this gallery item.';
+                            }),
                         Forms\Components\Toggle::make('is_active')
-                            ->default(true),
+                            ->default(true)
+                            ->helperText('Note: Item will only be visible on frontend when status is "Published".'),
                     ])->columns(2),
             ]);
     }
@@ -123,8 +151,17 @@ class GalleryItemResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('sort_order')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'published' => 'success',
+                        'pending' => 'warning',
+                        'draft' => 'gray',
+                        default => 'gray',
+                    }),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -139,8 +176,15 @@ class GalleryItemResource extends Resource
                         'Conferences' => 'Conferences',
                         'Other' => 'Other',
                     ]),
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'pending' => 'Pending Review',
+                        'published' => 'Published',
+                    ]),
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status'),
+                    ->label('Active Status')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Filters\SelectFilter::make('technical_working_group_id')
                     ->relationship('technicalWorkingGroup', 'name')
                     ->searchable()
