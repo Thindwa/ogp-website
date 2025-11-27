@@ -17,6 +17,7 @@ Route::get('/gallery', [FrontendController::class, 'gallery'])->name('gallery');
 Route::get('/gallery/{slug}', [FrontendController::class, 'showGalleryItem'])->name('gallery.detail');
 Route::get('/documents', [FrontendController::class, 'documents'])->name('documents');
 Route::get('/documents/{slug}', [FrontendController::class, 'showDocument'])->name('document.detail');
+Route::get('/documents/{slug}/download', [FrontendController::class, 'downloadDocument'])->name('document.download');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 

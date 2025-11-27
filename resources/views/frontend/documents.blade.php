@@ -123,7 +123,7 @@
 
                             <!-- Action Button -->
                             <div class="d-flex justify-content-start">
-                                <a href="{{ route('document.detail', $document->slug) }}" class="btn btn-success btn-sm">
+                                <a href="{{ route('document.download', $document->slug) }}" class="btn btn-success btn-sm">
                                     <i class="fas fa-download me-2"></i>Download
                                 </a>
                             </div>
@@ -175,7 +175,7 @@
                                 <p class="text-muted mb-0 small">{{ Str::limit(strip_tags($document->description), 100) }}</p>
                             </div>
                             <div class="col-md-3 text-md-end">
-                                <a href="{{ route('document.detail', $document->slug) }}" class="btn btn-success btn-sm">
+                                <a href="{{ route('document.download', $document->slug) }}" class="btn btn-success btn-sm">
                                     <i class="fas fa-download me-2"></i>Download
                                 </a>
                             </div>
@@ -285,7 +285,7 @@
 
                                 <!-- Action Button -->
                                 <div class="d-flex justify-content-start">
-                                    <a href="{{ route('document.detail', $document->slug) }}" class="btn btn-outline-warning btn-sm">
+                                    <a href="{{ route('document.download', $document->slug) }}" class="btn btn-outline-warning btn-sm">
                                         <i class="fas fa-download me-2"></i>Download
                                     </a>
                                 </div>
@@ -334,7 +334,7 @@
                                     <p class="text-muted mb-0 small">{{ Str::limit(strip_tags($document->description), 100) }}</p>
                                 </div>
                                 <div class="col-md-3 text-md-end">
-                                    <a href="{{ route('document.detail', $document->slug) }}" class="btn btn-outline-warning btn-sm">
+                                    <a href="{{ route('document.download', $document->slug) }}" class="btn btn-outline-warning btn-sm">
                                         <i class="fas fa-download me-2"></i>Download
                                     </a>
                                 </div>

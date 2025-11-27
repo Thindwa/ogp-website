@@ -143,6 +143,37 @@ class FrontendController extends Controller
         return view('frontend.single-document', compact('document', 'relatedDocuments'));
     }
 
+    public function downloadDocument($slug)
+    {
+        $document = Document::where('slug', $slug)->firstOrFail();
+
+        // Check if document is published
+        if ($document->status !== 'published') {
+            abort(404);
+        }
+
+        // Increment download count
+        $document->increment('download_count');
+
+        // Get the file path - Filament stores files in storage/app/public
+        $filePath = storage_path('app/public/' . $document->file_path);
+
+        // Check if file exists
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        // Get the original filename from the file path or use document title
+        $originalFileName = basename($document->file_path);
+        $downloadFileName = $document->title . '.' . $document->file_type;
+
+        // Clean the download filename (remove invalid characters)
+        $downloadFileName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $downloadFileName);
+
+        // Return file download response
+        return response()->download($filePath, $downloadFileName);
+    }
+
     public function showGalleryItem($slug)
     {
         $galleryItem = GalleryItem::where('slug', $slug)->with('technicalWorkingGroup')->firstOrFail();
