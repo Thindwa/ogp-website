@@ -189,8 +189,7 @@ class DocumentResource extends Resource
                         'published' => 'Published',
                     ]),
                 Tables\Filters\TernaryFilter::make('is_public')
-                    ->label('Public Status')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Public Status'),
                 Tables\Filters\SelectFilter::make('technical_working_group_id')
                     ->relationship('technicalWorkingGroup', 'name')
                     ->searchable()
