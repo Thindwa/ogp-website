@@ -52,6 +52,15 @@ class AboutPage extends Model
         'technical_working_groups_icon',
         'technical_working_groups_list',
         'steering_committee_membership',
+        'who_is_ogp_title',
+        'who_is_ogp_content',
+        'who_is_ogp_description',
+        'how_ogp_works_title',
+        'how_ogp_works_content',
+        'how_ogp_works_description',
+        'malawi_ogp_title',
+        'malawi_ogp_content',
+        'malawi_ogp_description',
         'is_active'
     ];
 

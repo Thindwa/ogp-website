@@ -24,23 +24,23 @@ class AboutPageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Page Header')
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->maxLength(255)
-                            ->label('Title'),
-                        Forms\Components\TextInput::make('subtitle')
-                            ->maxLength(255)
-                            ->label('Subtitle'),
-                        Forms\Components\Textarea::make('description')
-                            ->rows(3)
-                            ->label('Description'),
-                        Forms\Components\FileUpload::make('featured_image')
-                            ->image()
-                            ->directory('about-images')
-                            ->visibility('public')
-                            ->label('Featured Image'),
-                    ])->columns(2),
+                // Forms\Components\Section::make('Page Header')
+                //     ->schema([
+                //         Forms\Components\TextInput::make('title')
+                //             ->maxLength(255)
+                //             ->label('Title'),
+                //         Forms\Components\TextInput::make('subtitle')
+                //             ->maxLength(255)
+                //             ->label('Subtitle'),
+                //         Forms\Components\Textarea::make('description')
+                //             ->rows(3)
+                //             ->label('Description'),
+                //         Forms\Components\FileUpload::make('featured_image')
+                //             ->image()
+                //             ->directory('about-images')
+                //             ->visibility('public')
+                //             ->label('Featured Image'),
+                //     ])->columns(2),
 
                 Forms\Components\Section::make('OGP Global')
                     ->schema([
@@ -70,28 +70,46 @@ class AboutPageResource extends Resource
                             ->visibility('public'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('OGP in Malawi Timeline')
+                Forms\Components\Section::make('Who is in OGP Section')
                     ->schema([
-                        Forms\Components\TextInput::make('malawi_timeline_title')
+                        Forms\Components\TextInput::make('who_is_ogp_title')
+                            ->maxLength(255)
+                            ->label('Section Title'),
+                        Forms\Components\RichEditor::make('who_is_ogp_content')
+                            ->label('Main Content')
+                            ->helperText('This content appears in the dark card with the flag icon')
+                            ->columnSpanFull(),
+                        Forms\Components\Textarea::make('who_is_ogp_description')
+                            ->rows(3)
+                            ->label('Description')
+                            ->helperText('Optional additional description'),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('How OGP Works')
+                    ->schema([
+                        Forms\Components\TextInput::make('how_ogp_works_title')
                             ->maxLength(255)
                             ->label('Title'),
-                        Forms\Components\TextInput::make('malawi_timeline_subtitle')
-                            ->maxLength(255)
-                            ->label('Subtitle'),
-                        Forms\Components\Textarea::make('malawi_timeline_content')
+                        Forms\Components\Textarea::make('how_ogp_works_content')
                             ->rows(4)
                             ->label('Content'),
-                        Forms\Components\Textarea::make('malawi_timeline_description')
+                        Forms\Components\Textarea::make('how_ogp_works_description')
                             ->rows(3)
-                            ->label('Description'),
-                        Forms\Components\TextInput::make('malawi_timeline_icon')
+                            ->label('Description')
+                            ->helperText('Optional additional description'),
+                    ])->columns(2),
+
+                Forms\Components\Section::make('Malawi OGP')
+                    ->schema([
+                        Forms\Components\TextInput::make('malawi_ogp_title')
                             ->maxLength(255)
-                            ->label('Icon (FontAwesome class)'),
-                        Forms\Components\KeyValue::make('malawi_timeline_data')
-                            ->label('Timeline Data')
-                            ->keyLabel('Year')
-                            ->valueLabel('Description')
-                            ->helperText('Add timeline entries (e.g., 2013: Malawi Joins OGP)'),
+                            ->label('Title'),
+                        Forms\Components\RichEditor::make('malawi_ogp_content')
+                            ->label('Content'),
+                        Forms\Components\Textarea::make('malawi_ogp_description')
+                            ->rows(3)
+                            ->label('Description')
+                            ->helperText('This description appears in the quote section at the bottom if provided'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('National Steering Committee')
