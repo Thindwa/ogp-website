@@ -36,7 +36,7 @@ class GalleryItemResource extends Resource
                             ->maxLength(255),
                         Forms\Components\Select::make('technical_working_group_id')
                             ->relationship('technicalWorkingGroup', 'name')
-                            ->required()
+                            ->required(fn () => auth()->user()->isTWGManager())
                             ->searchable()
                             ->preload()
                             ->default(function () {
@@ -49,6 +49,13 @@ class GalleryItemResource extends Resource
                             ->disabled(function () {
                                 $user = auth()->user();
                                 return $user->isTWGManager();
+                            })
+                            ->helperText(function () {
+                                $user = auth()->user();
+                                if ($user->isTWGManager()) {
+                                    return 'This field is required for TWG managers.';
+                                }
+                                return 'Optional: Leave blank for general content not associated with a specific TWG.';
                             }),
                         Forms\Components\Textarea::make('description')
                             ->rows(3),

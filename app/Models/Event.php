@@ -67,8 +67,13 @@ class Event extends Model
 
     public function scopeCurrent($query)
     {
-        return $query->whereHas('technicalWorkingGroup', function ($q) {
-            $q->current();
+        return $query->where(function ($q) {
+            // Include items with current TWGs
+            $q->whereHas('technicalWorkingGroup', function ($subQ) {
+                $subQ->current();
+            })
+            // OR include general content (no TWG assigned)
+            ->orWhereNull('technical_working_group_id');
         });
     }
 
@@ -77,5 +82,6 @@ class Event extends Model
         return $query->whereHas('technicalWorkingGroup', function ($q) {
             $q->archived();
         });
+        // Note: General content (null TWG) is never archived
     }
 }

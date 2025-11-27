@@ -96,8 +96,13 @@ class GalleryItem extends Model implements HasMedia
 
     public function scopeCurrent($query)
     {
-        return $query->whereHas('technicalWorkingGroup', function ($q) {
-            $q->current();
+        return $query->where(function ($q) {
+            // Include items with current TWGs
+            $q->whereHas('technicalWorkingGroup', function ($subQ) {
+                $subQ->current();
+            })
+            // OR include general content (no TWG assigned)
+            ->orWhereNull('technical_working_group_id');
         });
     }
 
@@ -106,5 +111,6 @@ class GalleryItem extends Model implements HasMedia
         return $query->whereHas('technicalWorkingGroup', function ($q) {
             $q->archived();
         });
+        // Note: General content (null TWG) is never archived
     }
 }
