@@ -138,11 +138,84 @@ class AboutPageResource extends Resource
                         Forms\Components\TextInput::make('steering_committee_icon')
                             ->maxLength(255)
                             ->label('Icon (FontAwesome class)'),
-                        Forms\Components\Textarea::make('steering_committee_membership')
-                            ->label('Steering Committee Membership (JSON)')
-                            ->rows(8)
-                            ->helperText('Enter membership data in JSON format. This will be automatically populated from the seeder.'),
                     ])->columns(2),
+
+                Forms\Components\Section::make('Steering Committee Membership')
+                    ->description('Manage the membership of the National Steering Committee')
+                    ->schema([
+                        Forms\Components\Repeater::make('gov_institutions_temp')
+                            ->label('Government Institutions')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Institution Name')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->defaultItems(1)
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                            ->addActionLabel('Add Government Institution')
+                            ->helperText('List all government institutions that are members of the Steering Committee')
+                            ->reorderable()
+                            ->live()
+                            ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                                static::updateMembershipField($set, $get);
+                            })
+                            ->dehydrated(false),
+                        Forms\Components\Repeater::make('cso_organizations_temp')
+                            ->label('Civil Society Organizations')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Organization Name')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->defaultItems(1)
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                            ->addActionLabel('Add Civil Society Organization')
+                            ->helperText('List all civil society organizations that are members of the Steering Committee')
+                            ->reorderable()
+                            ->live()
+                            ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                                static::updateMembershipField($set, $get);
+                            })
+                            ->dehydrated(false),
+                        Forms\Components\Repeater::make('ex_officio_temp')
+                            ->label('Ex-Officio Members')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Member Name')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->defaultItems(0)
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                            ->addActionLabel('Add Ex-Officio Member')
+                            ->helperText('List any ex-officio members (optional)')
+                            ->reorderable()
+                            ->live()
+                            ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                                static::updateMembershipField($set, $get);
+                            })
+                            ->dehydrated(false),
+                        Forms\Components\Hidden::make('steering_committee_membership')
+                            ->afterStateHydrated(function (Forms\Set $set, Forms\Get $get, $state) {
+                                // Initialize temp fields from existing membership data
+                                if (is_array($state) && !empty($state)) {
+                                    if (isset($state['government_institutions'])) {
+                                        $set('gov_institutions_temp', array_map(fn($item) => ['name' => is_string($item) ? $item : ($item['name'] ?? $item)], $state['government_institutions']));
+                                    }
+                                    if (isset($state['civil_society_organizations'])) {
+                                        $set('cso_organizations_temp', array_map(fn($item) => ['name' => is_string($item) ? $item : ($item['name'] ?? $item)], $state['civil_society_organizations']));
+                                    }
+                                    if (isset($state['ex_officio_members'])) {
+                                        $set('ex_officio_temp', array_map(fn($item) => ['name' => is_string($item) ? $item : ($item['name'] ?? $item)], $state['ex_officio_members']));
+                                    }
+                                }
+                            }),
+                    ])->columns(1),
 
                 Forms\Components\Section::make('Malawi National Action Plan')
                     ->schema([
@@ -244,6 +317,37 @@ class AboutPageResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    protected static function updateMembershipField(Forms\Set $set, Forms\Get $get): void
+    {
+        $membership = [];
+
+        $govInstitutions = $get('gov_institutions_temp') ?? [];
+        if (is_array($govInstitutions)) {
+            $membership['government_institutions'] = array_values(array_filter(array_map(function ($item) {
+                if (empty($item) || !is_array($item)) return null;
+                return $item['name'] ?? null;
+            }, $govInstitutions)));
+        }
+
+        $csoOrganizations = $get('cso_organizations_temp') ?? [];
+        if (is_array($csoOrganizations)) {
+            $membership['civil_society_organizations'] = array_values(array_filter(array_map(function ($item) {
+                if (empty($item) || !is_array($item)) return null;
+                return $item['name'] ?? null;
+            }, $csoOrganizations)));
+        }
+
+        $exOfficio = $get('ex_officio_temp') ?? [];
+        if (is_array($exOfficio)) {
+            $membership['ex_officio_members'] = array_values(array_filter(array_map(function ($item) {
+                if (empty($item) || !is_array($item)) return null;
+                return $item['name'] ?? null;
+            }, $exOfficio)));
+        }
+
+        $set('steering_committee_membership', $membership);
     }
 
     public static function getRelations(): array

@@ -175,7 +175,14 @@
                                 {{ $aboutPage->steering_committee_content ?? 'OGP in Malawi is coordinated by a National Steering Committee that leads the implementation of the Malawi OGP 2023–2025 National Action Plan. The committee includes government and civil society representatives who collaboratively guide implementation across sectors.' }}
                             </p>
 
-                            @if ($aboutPage->steering_committee_membership)
+                            @php
+                                $membership = is_array($aboutPage->steering_committee_membership)
+                                    ? $aboutPage->steering_committee_membership
+                                    : (is_string($aboutPage->steering_committee_membership)
+                                        ? json_decode($aboutPage->steering_committee_membership, true)
+                                        : []);
+                            @endphp
+                            @if (!empty($membership) && is_array($membership))
                                 <div class="mt-4">
                                     <h6 class="fw-semibold text-dark mb-3">OGP Malawi National Steering Committee Membership
                                     </h6>
@@ -183,11 +190,11 @@
                                         <div class="col-md-6">
                                             <h6 class="fw-semibold text-success mb-2">Government Institutions</h6>
                                             <ul class="list-unstyled">
-                                                @if (isset($aboutPage->steering_committee_membership['government_institutions']))
-                                                    @foreach ($aboutPage->steering_committee_membership['government_institutions'] as $institution)
+                                                @if (!empty($membership['government_institutions']) && is_array($membership['government_institutions']))
+                                                    @foreach ($membership['government_institutions'] as $institution)
                                                         <li class="mb-1">
                                                             <i class="fas fa-check-circle text-success me-2"></i>
-                                                            {{ $institution }}
+                                                            {{ is_string($institution) ? $institution : (is_array($institution) ? ($institution['name'] ?? $institution['title'] ?? json_encode($institution)) : $institution) }}
                                                         </li>
                                                     @endforeach
                                                 @endif
@@ -196,25 +203,25 @@
                                         <div class="col-md-6">
                                             <h6 class="fw-semibold text-primary mb-2">Civil Society Organizations</h6>
                                             <ul class="list-unstyled">
-                                                @if (isset($aboutPage->steering_committee_membership['civil_society_organizations']))
-                                                    @foreach ($aboutPage->steering_committee_membership['civil_society_organizations'] as $organization)
+                                                @if (!empty($membership['civil_society_organizations']) && is_array($membership['civil_society_organizations']))
+                                                    @foreach ($membership['civil_society_organizations'] as $organization)
                                                         <li class="mb-1">
                                                             <i class="fas fa-check-circle text-primary me-2"></i>
-                                                            {{ $organization }}
+                                                            {{ is_string($organization) ? $organization : (is_array($organization) ? ($organization['name'] ?? $organization['title'] ?? json_encode($organization)) : $organization) }}
                                                         </li>
                                                     @endforeach
                                                 @endif
                                             </ul>
                                         </div>
                                     </div>
-                                    @if (isset($aboutPage->steering_committee_membership['ex_officio_members']))
+                                    @if (!empty($membership['ex_officio_members']) && is_array($membership['ex_officio_members']))
                                         <div class="mt-3">
                                             <h6 class="fw-semibold text-warning mb-2">Ex-Officio Members</h6>
                                             <ul class="list-unstyled">
-                                                @foreach ($aboutPage->steering_committee_membership['ex_officio_members'] as $member)
+                                                @foreach ($membership['ex_officio_members'] as $member)
                                                     <li class="mb-1">
                                                         <i class="fas fa-check-circle text-warning me-2"></i>
-                                                        {{ $member }}
+                                                        {{ is_string($member) ? $member : (is_array($member) ? ($member['name'] ?? $member['title'] ?? json_encode($member)) : $member) }}
                                                     </li>
                                                 @endforeach
                                             </ul>
