@@ -24,20 +24,23 @@ class AboutPageResource extends Resource
     {
         return $form
             ->schema([
-                // Forms\Components\Section::make('Page Header')
-                //     ->schema([
-                //         Forms\Components\TextInput::make('title')
-                //             ->maxLength(255)
-                //             ->required(),
-                //         Forms\Components\TextInput::make('subtitle')
-                //             ->maxLength(255),
-                //         Forms\Components\Textarea::make('description')
-                //             ->rows(3),
-                //         Forms\Components\FileUpload::make('featured_image')
-                //             ->image()
-                //             ->directory('about-images')
-                //             ->visibility('public'),
-                //     ])->columns(2),
+                Forms\Components\Section::make('Page Header')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->maxLength(255)
+                            ->label('Title'),
+                        Forms\Components\TextInput::make('subtitle')
+                            ->maxLength(255)
+                            ->label('Subtitle'),
+                        Forms\Components\Textarea::make('description')
+                            ->rows(3)
+                            ->label('Description'),
+                        Forms\Components\FileUpload::make('featured_image')
+                            ->image()
+                            ->directory('about-images')
+                            ->visibility('public')
+                            ->label('Featured Image'),
+                    ])->columns(2),
 
                 Forms\Components\Section::make('OGP Global')
                     ->schema([
@@ -53,6 +56,11 @@ class AboutPageResource extends Resource
                         Forms\Components\Textarea::make('ogp_global_description')
                             ->rows(3)
                             ->label('Description'),
+                        Forms\Components\Textarea::make('content')
+                            ->rows(4)
+                            ->label('Main Content')
+                            ->helperText('This content appears in the card section below the OGP Global title')
+                            ->columnSpanFull(),
                         Forms\Components\TextInput::make('ogp_global_icon')
                             ->maxLength(255)
                             ->label('Icon (FontAwesome class)'),

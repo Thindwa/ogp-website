@@ -108,10 +108,7 @@
                             <strong class="text-dark">Working Group:</strong>
                             <p class="mb-0 text-muted">{{ $achievement->technicalWorkingGroup->name ?? 'General' }}</p>
                         </div>
-                        <div class="mb-0">
-                            <strong class="text-dark">Last Updated:</strong>
-                            <p class="mb-0 text-muted">{{ $achievement->updated_at->format('M d, Y') }}</p>
-                        </div>
+
                     </div>
                 </div>
 
@@ -145,27 +142,7 @@
     </div>
 </section>
 
-<!-- Call to Action -->
-<section class="py-5 bg-gradient-to-r from-dark to-secondary text-white">
-    <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-                <h2 class="display-4 fw-bold mb-4">Share This Achievement</h2>
-                <p class="lead mb-4 fs-5">
-                    Help us spread the word about this important achievement in open government.
-                </p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <button class="btn btn-light btn-lg px-5 py-3" onclick="shareAchievement()">
-                        <i class="fas fa-share-alt me-2"></i>Share Achievement
-                    </button>
-                    <a href="{{ route('achievements') }}" class="btn btn-outline-light btn-lg px-5 py-3">
-                        <i class="fas fa-arrow-left me-2"></i>Back to Achievements
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <script>
 function shareAchievement() {
@@ -183,4 +160,6 @@ function shareAchievement() {
     }
 }
 </script>
+
+@include('layouts.partials.call-to-action')
 @endsection

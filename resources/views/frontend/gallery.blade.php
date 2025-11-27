@@ -15,7 +15,25 @@
 <!-- Gallery Grid -->
 <section class="py-5">
     <div class="container">
-        <!-- Filter Bar -->
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-pills justify-content-center mb-4" id="galleryTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {{ !request('archive') ? 'active' : '' }}" id="current-gallery-tab" data-bs-toggle="pill" data-bs-target="#current-gallery" type="button" role="tab" onclick="switchGalleryTab('current')">
+                    Current Gallery
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {{ request('archive') ? 'active' : '' }}" id="past-gallery-tab" data-bs-toggle="pill" data-bs-target="#past-gallery" type="button" role="tab" onclick="switchGalleryTab('past')">
+                    Past Gallery
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content" id="galleryTabContent">
+            <!-- Current Gallery Tab -->
+            <div class="tab-pane fade {{ !request('archive') ? 'show active' : '' }}" id="current-gallery" role="tabpanel">
+                <!-- Filter Bar -->
         <div class="card mb-5 border-0 shadow-sm">
             <div class="card-body p-4">
                 <div class="row align-items-center">
@@ -105,6 +123,103 @@
             </nav>
         </div>
         @endif
+
+            </div>
+
+            <!-- Past Gallery Tab -->
+            <div class="tab-pane fade {{ request('archive') ? 'show active' : '' }}" id="past-gallery" role="tabpanel">
+                <!-- Filter Bar -->
+                <div class="card mb-5 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-dark">Category:</label>
+                                        <select class="form-select form-select-lg" onchange="filterByCategory(this.value)">
+                                            <option value="">All Categories</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category }}" {{ request('category') == $category ? 'selected' : '' }}>{{ $category }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-dark">Year:</label>
+                                        <select class="form-select form-select-lg" onchange="filterByYear(this.value)">
+                                            <option value="">All Years</option>
+                                            <option value="2024" {{ request('year') == '2024' ? 'selected' : '' }}>2024</option>
+                                            <option value="2023" {{ request('year') == '2023' ? 'selected' : '' }}>2023</option>
+                                            <option value="2022" {{ request('year') == '2022' ? 'selected' : '' }}>2022</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold text-dark">Status:</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="featuredOnlyPast" style="transform: scale(1.2);" onchange="filterByStatus(this.checked)" {{ request('status') == 'featured' ? 'checked' : '' }}>
+                                            <label class="form-check-label fw-bold" for="featuredOnlyPast">
+                                                Featured Only
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <div class="bg-warning bg-opacity-10 rounded p-3">
+                                    <span class="text-warning fw-bold fs-5">{{ $galleryItems->total() }} photos found</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="row g-4">
+                    @forelse($galleryItems as $item)
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="card shadow-sm border-0" data-bs-toggle="modal" data-bs-target="#imageModal" data-bs-image="{{ $item->getFirstMediaUrl('gallery') }}" data-bs-title="{{ $item->title }}" data-bs-description="{{ $item->description }}">
+                            <div class="position-relative">
+                                <img src="{{ $item->getFirstMediaUrl('gallery') }}" class="card-img-top" alt="{{ $item->title }}" style="height: 250px; object-fit: cover;">
+                                <div class="position-absolute top-0 end-0 m-2">
+                                    @if($item->is_featured)
+                                        <span class="badge bg-warning">Featured</span>
+                                    @endif
+                                </div>
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <div class="bg-white bg-opacity-75 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-search-plus fa-lg text-dark"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body p-3">
+                                <h6 class="card-title fw-bold mb-2">{{ $item->title }}</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-warning">{{ $item->category ?? 'General' }}</span>
+                                    <small class="text-muted">{{ $item->created_at->format('M d, Y') }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-12 text-center py-5">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 120px; height: 120px;">
+                            <i class="fas fa-images fa-4x text-muted"></i>
+                        </div>
+                        <h3 class="h3 mb-3 text-muted">No archived photos found</h3>
+                        <p class="text-muted fs-5">Check back later for archived gallery updates.</p>
+                    </div>
+                    @endforelse
+                </div>
+
+                <!-- Pagination -->
+                @if($galleryItems->hasPages())
+                <div class="d-flex justify-content-center mt-5">
+                    <nav aria-label="Gallery pagination">
+                        {{ $galleryItems->links('pagination::bootstrap-4') }}
+                    </nav>
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
 </section>
 
@@ -173,5 +288,27 @@ function filterByStatus(checked) {
     }
     window.location = url;
 }
+
+function switchGalleryTab(tab) {
+    const url = new URL(window.location);
+    if (tab === 'past') {
+        url.searchParams.set('archive', '1');
+    } else {
+        url.searchParams.delete('archive');
+    }
+    window.location = url;
+}
+
+// Set active tab on page load
+document.addEventListener('DOMContentLoaded', function() {
+    @if(request('archive'))
+        document.getElementById('past-gallery-tab').classList.add('active');
+        document.getElementById('current-gallery-tab').classList.remove('active');
+        document.getElementById('past-gallery').classList.add('show', 'active');
+        document.getElementById('current-gallery').classList.remove('show', 'active');
+    @endif
+});
 </script>
+
+@include('layouts.partials.call-to-action')
 @endsection

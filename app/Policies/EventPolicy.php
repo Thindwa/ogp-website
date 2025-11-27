@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\News;
+use App\Models\Event;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class NewsPolicy
+class EventPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class NewsPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_news');
+        return $user->can('view_any_event');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, News $news): bool
+    public function view(User $user, Event $event): bool
     {
-        return $user->can('view_news');
+        return $user->can('view_event');
     }
 
     /**
@@ -31,23 +31,23 @@ class NewsPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_news');
+        return $user->can('create_event');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, News $news): bool
+    public function update(User $user, Event $event): bool
     {
-        return $user->can('update_news');
+        return $user->can('update_event');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, News $news): bool
+    public function delete(User $user, Event $event): bool
     {
-        return $user->can('delete_news');
+        return $user->can('delete_event');
     }
 
     /**
@@ -55,15 +55,15 @@ class NewsPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_news');
+        return $user->can('delete_any_event');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, News $news): bool
+    public function forceDelete(User $user, Event $event): bool
     {
-        return $user->can('force_delete_news');
+        return $user->can('force_delete_event');
     }
 
     /**
@@ -71,15 +71,15 @@ class NewsPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_news');
+        return $user->can('force_delete_any_event');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, News $news): bool
+    public function restore(User $user, Event $event): bool
     {
-        return $user->can('restore_news');
+        return $user->can('restore_event');
     }
 
     /**
@@ -87,15 +87,15 @@ class NewsPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_news');
+        return $user->can('restore_any_event');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, News $news): bool
+    public function replicate(User $user, Event $event): bool
     {
-        return $user->can('replicate_news');
+        return $user->can('replicate_event');
     }
 
     /**
@@ -103,6 +103,6 @@ class NewsPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_news');
+        return $user->can('reorder_event');
     }
 }

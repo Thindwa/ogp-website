@@ -74,6 +74,33 @@ class AchievementResource extends Resource
 
                 Forms\Components\Section::make('Settings')
                     ->schema([
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'draft' => 'Draft',
+                                'pending' => 'Pending Review',
+                                'published' => 'Published',
+                            ])
+                            ->default(function () {
+                                $user = auth()->user();
+                                // TWG managers can only set to draft or pending
+                                if ($user->isTWGManager()) {
+                                    return 'pending';
+                                }
+                                return 'draft';
+                            })
+                            ->required()
+                            ->disabled(function () {
+                                $user = auth()->user();
+                                // Only admins can publish
+                                return $user->isTWGManager();
+                            })
+                            ->helperText(function () {
+                                $user = auth()->user();
+                                if ($user->isTWGManager()) {
+                                    return 'Your achievement will be submitted for admin review. Only admins can publish.';
+                                }
+                                return 'Set the publication status of this achievement.';
+                            }),
                         Forms\Components\Toggle::make('is_featured')
                             ->default(false),
                     ]),
@@ -105,6 +132,14 @@ class AchievementResource extends Resource
                 Tables\Columns\TextColumn::make('policy_area')
                     ->searchable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'published' => 'success',
+                        'pending' => 'warning',
+                        'draft' => 'gray',
+                        default => 'gray',
+                    }),
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -113,6 +148,12 @@ class AchievementResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'pending' => 'Pending Review',
+                        'published' => 'Published',
+                    ]),
                 Tables\Filters\TernaryFilter::make('is_featured')
                     ->label('Featured Status'),
                 Tables\Filters\SelectFilter::make('submitted_year')

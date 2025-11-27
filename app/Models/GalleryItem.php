@@ -23,7 +23,8 @@ class GalleryItem extends Model implements HasMedia
         'is_featured',
         'is_active',
         'sort_order',
-        'tags'
+        'tags',
+        'status'
     ];
 
     protected $casts = [
@@ -75,7 +76,7 @@ class GalleryItem extends Model implements HasMedia
 
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->where('status', 'published');
     }
 
     public function scopeFeatured($query)
@@ -83,8 +84,27 @@ class GalleryItem extends Model implements HasMedia
         return $query->where('is_featured', true);
     }
 
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('created_at', 'desc');
+    }
+
+    public function scopeCurrent($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->current();
+        });
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->archived();
+        });
     }
 }

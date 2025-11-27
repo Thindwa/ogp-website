@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\NewsResource\Pages;
+namespace App\Filament\Resources\EventResource\Pages;
 
-use App\Filament\Resources\NewsResource;
+use App\Filament\Resources\EventResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListNews extends ListRecords
+class ListEvents extends ListRecords
 {
-    protected static string $resource = NewsResource::class;
+    protected static string $resource = EventResource::class;
 
     protected function getHeaderActions(): array
     {

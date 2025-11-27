@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('news', function (Blueprint $table) {
+        // Check if table exists as 'events' or 'news'
+        $tableName = Schema::hasTable('events') ? 'events' : 'news';
+        Schema::table($tableName, function (Blueprint $table) {
             $table->boolean('is_featured')->default(false)->after('is_published');
         });
     }
@@ -21,7 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('news', function (Blueprint $table) {
+        // Check if table exists as 'events' or 'news'
+        $tableName = Schema::hasTable('events') ? 'events' : 'news';
+        Schema::table($tableName, function (Blueprint $table) {
             $table->dropColumn('is_featured');
         });
     }

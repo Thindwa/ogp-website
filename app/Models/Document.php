@@ -20,7 +20,8 @@ class Document extends Model
         'technical_working_group_id',
         'is_public',
         'download_count',
-        'published_at'
+        'published_at',
+        'status'
     ];
 
     protected $casts = [
@@ -51,7 +52,26 @@ class Document extends Model
 
     public function scopePublic($query)
     {
-        return $query->where('is_public', true);
+        return $query->where('status', 'published');
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function scopeCurrent($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->current();
+        });
+    }
+
+    public function scopeArchived($query)
+    {
+        return $query->whereHas('technicalWorkingGroup', function ($q) {
+            $q->archived();
+        });
     }
 
     public function getFileSizeFormattedAttribute()

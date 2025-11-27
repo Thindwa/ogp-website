@@ -63,15 +63,30 @@ class TechnicalWorkingGroupResource extends Resource
 
                 Forms\Components\Section::make('Contact Information')
                     ->schema([
+                        Forms\Components\Textarea::make('co_chairs')
+                            ->label('Co-chairs')
+                            ->helperText('Enter PS\' and CSO chairs (e.g., "PS Name (Government) and CSO Name (Civil Society)")')
+                            ->rows(2),
                         Forms\Components\TextInput::make('contact_person')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->helperText('Legacy field - use Co-chairs instead'),
                         Forms\Components\TextInput::make('contact_email')
                             ->email()
                             ->maxLength(255),
-                    ])->columns(2),
+                    ])->columns(1),
 
                 Forms\Components\Section::make('Content')
+                    ->description('Order: Issues, Objectives, Key Challenges, Commitments')
                     ->schema([
+                        Forms\Components\Repeater::make('issues')
+                            ->schema([
+                                Forms\Components\TextInput::make('issue')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->defaultItems(1)
+                            ->collapsible()
+                            ->label('Issues'),
                         Forms\Components\Repeater::make('objectives')
                             ->schema([
                                 Forms\Components\TextInput::make('objective')
@@ -87,7 +102,17 @@ class TechnicalWorkingGroupResource extends Resource
                                     ->maxLength(255),
                             ])
                             ->defaultItems(1)
-                            ->collapsible(),
+                            ->collapsible()
+                            ->label('Key Challenges'),
+                        Forms\Components\Repeater::make('commitments')
+                            ->schema([
+                                Forms\Components\TextInput::make('commitment')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->defaultItems(1)
+                            ->collapsible()
+                            ->label('Commitments'),
                         Forms\Components\Repeater::make('interventions')
                             ->schema([
                                 Forms\Components\TextInput::make('intervention')
@@ -95,16 +120,33 @@ class TechnicalWorkingGroupResource extends Resource
                                     ->maxLength(255),
                             ])
                             ->defaultItems(1)
-                            ->collapsible(),
+                            ->collapsible()
+                            ->label('Interventions (Legacy - use Commitments instead)'),
                     ])->columns(1),
+
+                Forms\Components\Section::make('Time Range')
+                    ->description('Set the date range for when this TWG was/is active. This determines if it appears in Current or Past TWGs.')
+                    ->schema([
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label('Start Date')
+                            ->helperText('When did this TWG start?'),
+                        Forms\Components\DatePicker::make('end_date')
+                            ->label('End Date')
+                            ->helperText('When did this TWG end? Leave empty if still active.')
+                            ->nullable(),
+                    ])->columns(2),
 
                 Forms\Components\Section::make('Settings')
                     ->schema([
                         Forms\Components\Toggle::make('is_active')
+                            ->label('Is Active')
+                            ->helperText('When disabled, this TWG will be archived and appear in the Past Working Groups section')
                             ->default(true),
                         Forms\Components\TextInput::make('sort_order')
+                            ->label('Sort Order')
                             ->numeric()
-                            ->default(0),
+                            ->default(0)
+                            ->helperText('Lower numbers appear first'),
                     ])->columns(2),
             ]);
     }
@@ -127,6 +169,18 @@ class TechnicalWorkingGroupResource extends Resource
                 Tables\Columns\TextColumn::make('short_description')
                     ->limit(50)
                     ->searchable(),
+                Tables\Columns\TextColumn::make('start_date')
+                    ->date()
+                    ->sortable()
+                    ->label('Start Date'),
+                Tables\Columns\TextColumn::make('end_date')
+                    ->date()
+                    ->sortable()
+                    ->label('End Date')
+                    ->placeholder('Active'),
+                Tables\Columns\TextColumn::make('date_range')
+                    ->label('Date Range')
+                    ->getStateUsing(fn ($record) => $record->date_range ?? 'Not set'),
                 Tables\Columns\TextColumn::make('contact_person')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
@@ -141,6 +195,12 @@ class TechnicalWorkingGroupResource extends Resource
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
+                Tables\Filters\Filter::make('current')
+                    ->label('Current TWGs')
+                    ->query(fn ($query) => $query->current()),
+                Tables\Filters\Filter::make('archived')
+                    ->label('Archived TWGs')
+                    ->query(fn ($query) => $query->archived()),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

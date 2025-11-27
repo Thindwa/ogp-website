@@ -1,11 +1,12 @@
 @extends('layouts.frontendlayout')
 
+
 @section('content')
 <!-- Page Header -->
 <section class="bg-gradient-to-r from-dark to-secondary text-white py-5">
     <div class="container">
         <div class="text-center">
-            <h1 class="h1 h1-md display-3-md fw-light mb-3 mb-md-4">About Open Government Partnership</h1>
+            <h1 class="h1 h1-md display-3-md fw-light mb-3 mb-md-4">Open Government Partnership</h1>
             <div class="border-bottom border-3 border-success mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
             <p class="lead lh-lg mb-0 fs-5 fs-md-4">Promoting transparency, accountability, and citizen participation in government</p>
         </div>
@@ -31,14 +32,7 @@
                     {{ $aboutPage->ogp_global_description }}
                 </p>
                 @endif
-                <div class="d-flex gap-2 gap-md-3 flex-wrap">
-                    <a href="{{ route('documents') }}" class="btn btn-success btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                        <i class="fas fa-file-alt me-2"></i>View Our Action Plans
-                    </a>
-                    <a href="{{ route('technical.group') }}" class="btn btn-outline-success btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                        <i class="fas fa-users me-2"></i>Join Working Groups
-                    </a>
-                </div>
+
             </div>
             <div class="col-lg-6">
                 <div class="bg-light rounded-4 p-4 text-center">
@@ -57,7 +51,7 @@
 </section>
 
 <!-- OGP Global Section -->
-@if($ogpGlobal)
+{{-- @if($ogpGlobal)
 <section class="py-5 bg-light">
     <div class="container">
         <div class="row">
@@ -80,7 +74,7 @@
                 </div>
             </div>
         </section>
-@endif
+@endif --}}
 
 <!-- OGP in Malawi Timeline -->
 @if($aboutPage->malawi_timeline_title)
@@ -283,26 +277,7 @@
             </div>
         </section>
 
-<!-- Call to Action -->
-<section class="py-5 bg-gradient-to-r from-success to-info text-white">
-    <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-                <h2 class="h2 h1-md display-4-md fw-light mb-3 mb-md-4 text-white">Get Involved</h2>
-                <div class="border-bottom border-3 border-warning mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
-                <p class="lead mb-3 mb-md-4 lh-lg fs-6 fs-md-5 text-white">
-                    Join us in building a more transparent, accountable, and participatory government in Malawi. Your voice matters in shaping our democracy.
-                </p>
-                <div class="d-flex gap-2 gap-md-3 justify-content-center flex-wrap">
-                    <a href="{{ route('technical.group') }}" class="btn btn-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                        <i class="fas fa-users me-2"></i>Join Working Groups
-                    </a>
-                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                        <i class="fas fa-download me-2"></i>Download Resources
-                    </a>
-                </div>
-      </div>
-      </div>
-    </div>
-  </section>
+
+
+@include('layouts.partials.call-to-action')
 @endsection

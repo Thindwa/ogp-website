@@ -38,12 +38,10 @@
                                             @if($item->description)
                                                 <p class="small lead-md mb-3 mb-md-4 text-white d-none d-md-block">{{ Str::limit($item->description, 120) }}</p>
                                             @endif
-                                            <div class="d-flex gap-2 gap-md-3 flex-wrap">
-                                                <a href="{{ route('about') }}" class="btn btn-success btn-sm btn-lg-md px-3 px-md-4 py-1 py-md-2 rounded-pill">
-                                                    <i class="fas fa-info-circle me-1 me-md-2"></i>Learn More
-                                                </a>
+                                            {{-- <div class="d-flex gap-2 gap-md-3 flex-wrap">
 
-                                            </div>
+
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -65,9 +63,7 @@
                                     <a href="{{ route('about') }}" class="btn btn-light btn-sm btn-lg-md px-3 px-md-4 py-2 py-md-3 rounded-pill">
                                         <i class="fas fa-info-circle me-1 me-md-2"></i>Learn More
                                     </a>
-                                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-sm btn-lg-md px-3 px-md-4 py-2 py-md-3 rounded-pill">
-                                        <i class="fas fa-file-alt me-1 me-md-2"></i>View Documents
-                                    </a>
+
             </div>
           </div>
         </div>
@@ -189,9 +185,7 @@
                         <a href="{{ route('about') }}" class="btn btn-success btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
                             Learn More About Us
                         </a>
-                        <a href="{{ route('documents') }}" class="btn btn-outline-dark btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                            View Our Documents
-                        </a>
+
                     </div>
                 </div>
           </div>
@@ -225,8 +219,8 @@
                             <div class="row align-items-center">
                                 <div class="col-12 col-lg-1 mb-3 mb-lg-0">
                                     <div class="text-center">
-                                        <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                                            <i class="fas fa-globe fa-lg fa-xl"></i>
+                                        <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center overflow-hidden" style="width: 60px; height: 60px;">
+                                            <img src="{{ asset('images/flag.jpeg') }}" alt="Globe" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
                                         </div>
                                     </div>
                                 </div>
@@ -245,8 +239,8 @@
                         <div class="bg-white p-3 p-md-5 h-100 shadow-sm rounded-4 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-start mb-4">
                                 <div class="flex-shrink-0 mb-3 mb-md-0">
-                                    <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center me-0 me-md-4 mx-auto" style="width: 50px; height: 50px;">
-                                        <i class="fas fa-cogs fa-lg text-white"></i>
+                                    <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center me-0 me-md-4 mx-auto overflow-hidden" style="width: 50px; height: 50px;">
+                                        <img src="{{ asset('images/flag.jpeg') }}" alt="Cogs" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 text-center text-md-start">
@@ -265,8 +259,8 @@
                         <div class="bg-white p-3 p-md-5 h-100 shadow-sm rounded-4 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-start mb-4">
                                 <div class="flex-shrink-0 mb-3 mb-md-0">
-                                    <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center me-0 me-md-4 mx-auto" style="width: 50px; height: 50px;">
-                                        <i class="fas fa-flag fa-lg text-white"></i>
+                                    <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center me-0 me-md-4 mx-auto overflow-hidden" style="width: 50px; height: 50px;">
+                                        <img src="{{ asset('images/flag.jpeg') }}" alt="Flag" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 text-center text-md-start">
@@ -302,44 +296,44 @@
 </section>
 @endif
 
-<!-- Latest News Section -->
+<!-- Latest Events Section -->
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-3 mb-md-5">
-            <h2 class="h2 h1-md display-4-md fw-light text-dark mb-0">Latest News</h2>
+            <h2 class="h2 h1-md display-4-md fw-light text-dark mb-0">Latest Events</h2>
             <div class="border-bottom border-3 border-success mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
             <p class="lead text-muted lh-lg mb-0 fs-6 fs-md-5">Stay informed about the latest developments in Open Government Partnership Malawi</p>
         </div>
 
         <div class="row g-4">
-            @forelse($featuredNews->take(3) as $news)
+            @forelse($featuredEvents->take(3) as $event)
             <div class="col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
-                    @if($news->featured_image)
-                    <img src="{{ asset('storage/' . $news->featured_image) }}" class="card-img-top" alt="{{ $news->title }}" style="height: 250px; object-fit: cover;">
+                    @if($event->featured_image)
+                    <img src="{{ asset('storage/' . $event->featured_image) }}" class="card-img-top" alt="{{ $event->title }}" style="height: 250px; object-fit: cover;">
                     @else
                     <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                        <img src="{{ asset('images/news-placeholder.jpg') }}" alt="News placeholder" class="img-fluid" style="max-height: 200px;">
+                        <img src="{{ asset('images/news-placeholder.jpg') }}" alt="Event placeholder" class="img-fluid" style="max-height: 200px;">
                     </div>
                     @endif
                     <div class="card-body d-flex flex-column p-4">
                         <div class="mb-3">
-                            <span class="text-muted small">{{ $news->technicalWorkingGroup->name ?? 'General' }}</span>
-                            @if($news->is_featured)
+                            <span class="text-muted small">{{ $event->technicalWorkingGroup->name ?? 'General' }}</span>
+                            @if($event->is_featured)
                                 <span class="text-warning small ms-2">• Featured</span>
                             @endif
                         </div>
                         <h5 class="card-title fw-semibold mb-3">
-                            <a href="{{ route('news.detail', $news->slug) }}" class="text-decoration-none text-dark">{{ $news->title }}</a>
+                            <a href="{{ route('event.detail', $event->slug) }}" class="text-decoration-none text-dark">{{ $event->title }}</a>
                         </h5>
-                        <p class="card-text text-muted flex-grow-1 mb-4">{{ Str::limit($news->excerpt, 120) }}</p>
+                        <p class="card-text text-muted flex-grow-1 mb-4">{{ Str::limit($event->excerpt, 120) }}</p>
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">
                                     <i class="fas fa-calendar me-1"></i>
-                                    {{ $news->published_at ? $news->published_at->format('M d, Y') : 'Draft' }}
+                                    {{ $event->published_at ? $event->published_at->format('M d, Y') : 'Draft' }}
                                 </small>
-                                <a href="{{ route('news.detail', $news->slug) }}" class="btn btn-outline-success btn-sm">
+                                <a href="{{ route('event.detail', $event->slug) }}" class="btn btn-outline-success btn-sm">
                                     Read More <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
                             </div>
@@ -350,19 +344,13 @@
             @empty
             <div class="col-12 text-center py-5">
                 <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                    <img src="{{ asset('images/news-placeholder.jpg') }}" alt="News placeholder" class="img-fluid" style="max-height: 60px;">
+                    <img src="{{ asset('images/news-placeholder.jpg') }}" alt="Event placeholder" class="img-fluid" style="max-height: 60px;">
                 </div>
-                <h3 class="h4 mb-2 text-muted">No news articles available</h3>
+                <h3 class="h4 mb-2 text-muted">No events available</h3>
                 <p class="text-muted">Check back later for the latest updates.</p>
             </div>
             @endforelse
         </div>
-
-        <div class="text-center mt-3 mt-md-5">
-            <a href="{{ route('news') }}" class="btn btn-success btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                <i class="fas fa-newspaper me-2"></i>View All News
-            </a>
-      </div>
     </div>
   </section>
 
@@ -408,31 +396,8 @@
             </div>
             @endforelse
         </div>
-
-        <div class="text-center mt-3 mt-md-5">
-            <a href="{{ route('achievements') }}" class="btn btn-warning btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                <i class="fas fa-trophy me-2"></i>View All Achievements
-            </a>
-      </div>
     </div>
   </section>
 
-<!-- Call to Action Section -->
-<section class="py-5 bg-gradient-to-r from-success to-info text-white">
-    <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-
-                <div class="border-bottom border-3 border-warning mx-auto mb-3 mb-md-4" style="width: 100px;"></div>
-
-                <div class="d-flex gap-2 gap-md-3 justify-content-center flex-wrap">
-
-                    <a href="{{ route('documents') }}" class="btn btn-outline-light btn-md btn-lg-md px-4 px-md-5 py-2 py-md-3 rounded-pill">
-                        <i class="fas fa-download me-2"></i>Download Resources
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@include('layouts.partials.call-to-action')
 @endsection

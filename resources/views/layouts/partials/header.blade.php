@@ -21,7 +21,7 @@
                     <a class="nav-link {{ request()->routeIs('about') ? 'active fw-bold' : '' }}" href="{{ route('about') }}">About OGP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('technical.group') ? 'active fw-bold' : '' }}" href="{{ route('technical.group') }}">Working Groups</a>
+                    <a class="nav-link {{ request()->routeIs('technical.group') || request()->routeIs('technical.detail') ? 'active fw-bold' : '' }}" href="{{ route('technical.group') }}">TWGs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('achievements') ? 'active fw-bold' : '' }}" href="{{ route('achievements') }}">Achievements</a>
@@ -30,7 +30,7 @@
                     <a class="nav-link {{ request()->routeIs('documents') ? 'active fw-bold' : '' }}" href="{{ route('documents') }}">Documents</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('news') ? 'active fw-bold' : '' }}" href="{{ route('news') }}">News</a>
+                    <a class="nav-link {{ request()->routeIs('events') ? 'active fw-bold' : '' }}" href="{{ route('events') }}">Events</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('gallery') ? 'active fw-bold' : '' }}" href="{{ route('gallery') }}">Gallery</a>
