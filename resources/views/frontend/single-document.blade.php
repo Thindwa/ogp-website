@@ -51,7 +51,7 @@
 
                         <!-- Download Button -->
                         <div class="d-flex gap-2">
-                            <a href="{{ route('document.detail', $document->slug) }}" class="btn btn-success btn-lg px-4 py-3">
+                            <a href="{{ route('document.download', $document->slug) }}" class="btn btn-success btn-lg px-4 py-3">
                                 <i class="fas fa-download me-2"></i>Download Document
                             </a>
                             <button class="btn btn-outline-secondary btn-lg px-4 py-3" onclick="shareDocument()">
