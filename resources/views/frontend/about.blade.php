@@ -44,8 +44,7 @@
                             <img src="{{ asset('images/arms.png') }}" alt="Government of Malawi" class="img-fluid mb-3"
                                 style="max-height: 300px;">
                         @endif
-                        <h5 class="fw-semibold text-dark">Government of Malawi</h5>
-                        <p class="text-muted">Committed to Open Government Principles</p>
+
                     </div>
                 </div>
             </div>

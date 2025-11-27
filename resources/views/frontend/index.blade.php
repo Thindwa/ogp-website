@@ -14,7 +14,7 @@
       <div class="carousel-inner">
             @forelse($galleryItems as $index => $item)
                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <div class="position-relative" style="height: 50vh; min-height: 300px;">
+                    <div class="position-relative" style="height: 50vh; min-height: 600px;">
                         @if($item->getFirstMediaUrl('gallery'))
                             <img src="{{ $item->getFirstMediaUrl('gallery') }}"
                                  class="d-block w-100 h-100"
