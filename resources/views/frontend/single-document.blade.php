@@ -120,7 +120,6 @@
                             <strong class="text-dark">Working Group:</strong>
                             <p class="mb-0 text-muted">{{ $document->technicalWorkingGroup->name ?? 'General' }}</p>
                         </div>
-
                     </div>
                 </div>
 
