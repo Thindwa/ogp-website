@@ -81,7 +81,8 @@ class EventResource extends Resource
                 Forms\Components\Section::make('Publishing')
                     ->schema([
                         Forms\Components\DatePicker::make('published_at')
-                            ->label('Publish Date'),
+                            ->label('Publish Date')
+                            ->helperText('Leave blank to auto-set to current date/time when status is set to Published.'),
                         Forms\Components\Select::make('status')
                             ->options([
                                 'draft' => 'Draft',

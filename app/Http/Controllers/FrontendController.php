@@ -81,8 +81,12 @@ class FrontendController extends Controller
 
         // Apply filters
         if (request('category')) {
-            $query->whereHas('technicalWorkingGroup', function($q) {
-                $q->where('name', 'like', '%' . request('category') . '%');
+            $query->where(function($q) {
+                $q->whereHas('technicalWorkingGroup', function($subQ) {
+                    $subQ->where('name', 'like', '%' . request('category') . '%');
+                })
+                // Include general content when filtering (or remove this if you want to exclude general content from filtered results)
+                ->orWhereNull('technical_working_group_id');
             });
         }
 
