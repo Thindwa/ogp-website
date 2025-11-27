@@ -163,15 +163,34 @@ class FrontendController extends Controller
             abort(404, 'File not found');
         }
 
-        // Get the original filename from the file path or use document title
-        $originalFileName = basename($document->file_path);
-        $downloadFileName = $document->title . '.' . $document->file_type;
+        // Get the actual file extension from the file path
+        $fileExtension = strtolower(pathinfo($document->file_path, PATHINFO_EXTENSION));
+
+        // Determine MIME type based on extension
+        $mimeTypes = [
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'ppt' => 'application/vnd.ms-powerpoint',
+            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'txt' => 'text/plain',
+            'rtf' => 'application/rtf',
+        ];
+
+        $mimeType = $mimeTypes[$fileExtension] ?? 'application/octet-stream';
+
+        // Create download filename with proper extension
+        $downloadFileName = $document->title . '.' . $fileExtension;
 
         // Clean the download filename (remove invalid characters)
         $downloadFileName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $downloadFileName);
 
-        // Return file download response
-        return response()->download($filePath, $downloadFileName);
+        // Return file download response with proper headers
+        return response()->download($filePath, $downloadFileName, [
+            'Content-Type' => $mimeType,
+        ]);
     }
 
     public function showGalleryItem($slug)
