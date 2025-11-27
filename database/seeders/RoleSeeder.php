@@ -10,10 +10,10 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create roles
-        $adminRole = Role::create(['name' => 'admin']);
-        $twgManagerRole = Role::create(['name' => 'twg_manager']);
-        $contentManagerRole = Role::create(['name' => 'content_manager']);
+        // Create or get roles
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $twgManagerRole = Role::firstOrCreate(['name' => 'twg_manager']);
+        $contentManagerRole = Role::firstOrCreate(['name' => 'content_manager']);
 
         // Get all permissions
         $allPermissions = Permission::all();
@@ -45,11 +45,11 @@ class RoleSeeder extends Seeder
         $twgManagerPermissions = [
             'view_technical::working::group',
             'update_technical::working::group',
-            'view_news',
-            'view_any_news',
-            'create_news',
-            'update_news',
-            'delete_news',
+            'view_event',
+            'view_any_event',
+            'create_event',
+            'update_event',
+            'delete_event',
             'view_achievement',
             'view_any_achievement',
             'create_achievement',
