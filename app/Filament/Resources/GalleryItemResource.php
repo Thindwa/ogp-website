@@ -183,8 +183,7 @@ class GalleryItemResource extends Resource
                         'published' => 'Published',
                     ]),
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Active Status'),
                 Tables\Filters\SelectFilter::make('technical_working_group_id')
                     ->relationship('technicalWorkingGroup', 'name')
                     ->searchable()
