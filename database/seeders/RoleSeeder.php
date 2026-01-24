@@ -10,19 +10,19 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        // Create roles
-        $adminRole = Role::create(['name' => 'admin']);
-        $twgManagerRole = Role::create(['name' => 'twg_manager']);
-        $contentManagerRole = Role::create(['name' => 'content_manager']);
+        // Create roles safely
+        $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $twgManagerRole = Role::firstOrCreate(['name' => 'twg_manager', 'guard_name' => 'web']);
+        $contentManagerRole = Role::firstOrCreate(['name' => 'content_manager', 'guard_name' => 'web']);
 
         // Get all permissions
         $allPermissions = Permission::all();
 
         // Admin gets all permissions
-        $adminRole->givePermissionTo($allPermissions);
+        $adminRole->syncPermissions($allPermissions);
 
-        // Content Manager permissions (home page, about page, general content)
-        $contentManagerPermissions = [
+        // Content Manager permissions
+        $contentManagerPermissions = Permission::whereIn('name', [
             'view_home::page',
             'view_any_home::page',
             'create_home::page',
@@ -38,11 +38,11 @@ class RoleSeeder extends Seeder
             'create_about::page',
             'update_about::page',
             'delete_about::page',
-        ];
-        $contentManagerRole->givePermissionTo($contentManagerPermissions);
+        ])->get();
+        $contentManagerRole->syncPermissions($contentManagerPermissions);
 
-        // TWG Manager permissions (limited to their TWG content)
-        $twgManagerPermissions = [
+        // TWG Manager permissions
+        $twgManagerPermissions = Permission::whereIn('name', [
             'view_technical::working::group',
             'update_technical::working::group',
             'view_news',
@@ -70,7 +70,7 @@ class RoleSeeder extends Seeder
             'create_highlight',
             'update_highlight',
             'delete_highlight',
-        ];
-        $twgManagerRole->givePermissionTo($twgManagerPermissions);
+        ])->get();
+        $twgManagerRole->syncPermissions($twgManagerPermissions);
     }
 }
