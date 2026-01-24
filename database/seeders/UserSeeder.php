@@ -13,24 +13,44 @@ class UserSeeder extends Seeder
     {
         $twgs = TechnicalWorkingGroup::all();
 
-        // Main admin user
+        // --- Main Admin User ---
         $admin = User::updateOrCreate(
             ['email' => 'admin@ogp.mw'],
             [
                 'name' => 'OGP Admin',
                 'password' => Hash::make('password'),
-                'role' => 'admin',
                 'email_verified_at' => now(),
             ]
         );
+        $admin->assignRole('admin');
 
-        // TWG users
+        // --- TWG Manager Users ---
         $twgUsers = [
-            ['name' => 'Anti-Corruption TWG Manager', 'email' => 'anticorruption@ogp.mw'],
-            ['name' => 'Access to Information TWG Manager', 'email' => 'accesstoinfo@ogp.mw'],
-            ['name' => 'Digital Governance TWG Manager', 'email' => 'digitalgovernance@ogp.mw'],
-            ['name' => 'Natural Resources TWG Manager', 'email' => 'naturalresources@ogp.mw'],
-            ['name' => 'Open Parliament TWG Manager', 'email' => 'openparliament@ogp.mw'],
+            [
+                'name' => 'Anti-Corruption TWG Manager',
+                'email' => 'anticorruption@ogp.mw',
+                'role' => 'twg_manager',
+            ],
+            [
+                'name' => 'Access to Information TWG Manager',
+                'email' => 'accesstoinfo@ogp.mw',
+                'role' => 'twg_manager',
+            ],
+            [
+                'name' => 'Digital Governance TWG Manager',
+                'email' => 'digitalgovernance@ogp.mw',
+                'role' => 'twg_manager',
+            ],
+            [
+                'name' => 'Natural Resources TWG Manager',
+                'email' => 'naturalresources@ogp.mw',
+                'role' => 'twg_manager',
+            ],
+            [
+                'name' => 'Open Parliament TWG Manager',
+                'email' => 'openparliament@ogp.mw',
+                'role' => 'twg_manager',
+            ],
         ];
 
         foreach ($twgUsers as $index => $data) {
@@ -39,26 +59,28 @@ class UserSeeder extends Seeder
                 [
                     'name' => $data['name'],
                     'password' => Hash::make('password'),
-                    'role' => 'twg_manager',
                     'email_verified_at' => now(),
                 ]
             );
 
-            // Assign TWG
+            // Assign role
+            $user->assignRole($data['role']);
+
+            // Assign TWG if available
             if ($twgs->count() > $index) {
                 $user->update(['technical_working_group_id' => $twgs[$index]->id]);
             }
         }
 
-        // General content manager
-        User::updateOrCreate(
+        // --- General Content Manager ---
+        $contentManager = User::updateOrCreate(
             ['email' => 'content@ogp.mw'],
             [
                 'name' => 'Content Manager',
                 'password' => Hash::make('password'),
-                'role' => 'content_manager',
                 'email_verified_at' => now(),
             ]
         );
+        $contentManager->assignRole('content_manager');
     }
 }
